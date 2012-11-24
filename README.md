@@ -6,6 +6,69 @@ It has a server-side component that collects urbansim indicators into a
 database and serves them up with a RESTful API.  It has a reference web client
 that can be used for inspecting the indicator results.
 
+Setting Up Your Development Machine
+===================================
+
+Ubuntu
+------
+
+1. Install postgres, python, and virtualenv:
+
+   $ sudo apt-get install postgresql python python-virtualenv
+
+2. Check out the urbangraph code and cd into the directory
+
+3. Set up your python virtualenv:
+
+   $ virtualenv venv --distribute
+   $ source venv/bin/activate
+   $ pip install
+   $ pip install -r requirements.txt
+
+4. Create the urbangraph database:
+
+   $ sudo su postgres
+   $ createuser -P -d -l -R -S urbangraph
+   $ createdb -O urbangraph urbangraph
+   $ exit
+
+   [ NOTE: the user needs to be able to create DBs to run the tests]
+
+5. Sync the django app's db and launch the development server
+
+   $ export DATABASE_URL=postgres://urbangraph:<password>@localhost/urbangraph
+   $ python manage.py syncdb
+   $ python manage.py runserver
+
+6. Point your browser at the development server and expect the front page to
+   appear
+
+   http://localhost:8000/
+
+7. Run the tests:
+
+   $ python manage.py test
+
+Deploying to Heroku
+===================
+
+1. Install heroku toolbelt.  This step varies depending on your platform.
+   Here's how I do it on Ubuntu:
+
+   $ wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+
+2. Add heroku remote to your git tree:
+
+   $ git remote add heroku git@heroku.com:urbangraph.git
+
+3. Push to heroku:
+
+   $ git push heroku master
+
+4. Expect the updated app to be available here:
+
+   http://urbangraph.herokuapp.com/
+
 REST API
 ========
 

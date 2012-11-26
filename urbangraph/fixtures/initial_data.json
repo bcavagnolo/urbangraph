@@ -1,0 +1,11 @@
+[
+  {
+    "model": "urbangraph.project",
+    "pk": 1,
+    "fields": {
+      "name": "bay_area_parcel",
+      "description": "This is the parcel-level model of the San Francisco Bay Area.",
+      "title": "Bay Area Parcel-Level Model"
+    }
+  }
+]

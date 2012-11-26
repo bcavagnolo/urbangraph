@@ -61,9 +61,10 @@ Deploying to Heroku
 
    $ git remote add heroku git@heroku.com:urbangraph.git
 
-3. Push to heroku:
+3. Push to heroku and sync the db:
 
    $ git push heroku master
+   $ heroku run python manage.py syncdb
 
 4. Expect the updated app to be available here:
 

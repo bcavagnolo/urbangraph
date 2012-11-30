@@ -2,49 +2,51 @@ from django.db import models
 from django.core.validators import validate_slug
 
 class Project(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255, unique=True,
+                            validators=[validate_slug])
     title = models.CharField(max_length=255)
-    description = models.TextField(validators=[validate_slug])
-	class Meta:
-		db_table = 'Project'
+    description = models.TextField()
 
-class level(models.Model):
+    def __unicode__(self):
+        return self.name
+
+class Level(models.Model):
     name = models.CharField(max_length=200)    
-    class Meta:
-        db_table = 'leveltb'
+
     def __unicode__(self):
         return self.name
 
-class shapeobj(models.Model):
-    levelfk = models.ForeignKey(level)
+class Shape(models.Model):
+    level = models.ForeignKey(Level)
     name = models.CharField(max_length=200)
-    parent_id = models.ForeignKey('self',null=True, blank=True)
-    class Meta:
-        db_table = 'shapetb'
+    parent = models.ForeignKey('self',null=True, blank=True)
+
     def __unicode__(self):
         return self.name
-        
-class runs(models.Model):
-    name = models.CharField(max_length=200)
-    class Meta:
-        db_table = 'runstb'
 
-class indicator(models.Model):
+class Scenario(models.Model):
+    name = models.CharField(max_length=200)
+    project = models.ForeignKey(Project)
+    description = models.TextField()
+
+class Run(models.Model):
+    name = models.CharField(max_length=200)
+    scenario = models.ForeignKey(Scenario)
+
+class Indicator(models.Model):
     name = models.CharField(max_length=200)
     desc = models.CharField(max_length=200)
-    class Meta:
-        db_table = 'indicatortb'    
+
     def __unicode__(self):
         return self.name
-    
-class indicatordata(models.Model):
-    runfk = models.ForeignKey(runs)
-    shapefk = models.ForeignKey(shapeobj)
-    indicatorfk = models.ForeignKey(indicator)
+
+class IndicatorData(models.Model):
+    run = models.ForeignKey(Run)
+    shape = models.ForeignKey(Shape)
+    indicator = models.ForeignKey(Indicator)
     xvalue = models.CharField(max_length=100)
     yvalue = models.CharField(max_length=100)
-    class Meta:
-        db_table = 'indicatordatatb'
+
     def __unicode__(self):
         return self.runfk
     

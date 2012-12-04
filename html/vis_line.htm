@@ -1,0 +1,96 @@
+<html>
+  <head>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+  <link rel="stylesheet" type="text/css" href="../static/main_page.css" />
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	 <script src="http://d3js.org/d3.v2.js"></script>
+	<script src="../static/graph.js"></script>
+    
+	<script type="text/javascript">
+      
+	  google.load("visualization", "1", {packages:["corechart"]}); //load chart library , do not remove.
+      
+	  
+	  
+$(function() {
+  var options = '';
+  var year = 2010;
+  for (var i = 0; i < 31; i++) {
+      options += '<option value="' + year + '">' + year + '</option>';
+	  year++;
+  }
+  $('#fromyear').html(options);
+  $('#toyear').html(options);
+  $('#pieyear').html(options);
+});
+     
+    </script>
+  </head>
+  <body>
+  	
+    
+<div id="container">
+    
+<div id="headbanner">
+			
+	<select id ="selection"> 
+	<option value="../static/county_table-3_2010-2040_county__nonres_occupancy_ratio.tab.txt" >County Non Resident Occupancy Ratio</option>
+	<option value="../static/county_table-3_2010-2040_county__county_population.tab.txt" >County Population</option>
+	<option value="../static/county_table-3_2010-2040_county__county_households.tab.txt" >County HouseHolds</option>
+	<option value="../static/county_table-3_2010-2040_county__county_mixed_use_dwelling_units.tab.txt">County Mixed Use Dwelling Units</option>
+	<option value="../static/county_table-3_2010-2040_county__county_jobs_within_half_mile_transit.tab.txt" >County Jobs Half Mile Transit</option>
+	</select>
+			<button id="display" class="button">DISPLAY DATASET</button>	
+
+</div>
+
+
+<div id="content-left">
+
+<div id="opt1">
+<select id="fromyear">
+  
+</select> 
+
+<select id="toyear">
+  
+</select>
+
+<button id="apply" class="button">Year Filter</button>
+<br>	
+
+<br><br>
+<button id="toggle1" class="button">SHOW LINE CHART </button><br>
+<br>
+<button id="toggle" class="button">SHOW COMBO CHART</button><br>
+
+<br><br>
+
+</div>
+<br>
+<div id="opt1">
+<select id="pieyear">
+  
+</select> 
+
+<button id="pie" class="button">SHOW PIE CHART</button>
+<br>	
+
+<br><br>
+
+</div>
+		
+</div>
+		
+		
+<div id="content-right">
+			<div id="chart_div" style="width: 900px; height: 500px; float:right;"></div>
+ 
+ </div>
+
+</div>
+    
+  </body>
+</html>

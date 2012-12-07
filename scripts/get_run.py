@@ -7,6 +7,7 @@ import django
 from bs4 import BeautifulSoup
 import re
 import csv
+from django.db import transaction
 
 HUDSON_OPUS_HOME = '/var/hudson/workspace/MTC_Model'
 HUDSON_PROJECT = 'bay_area_parcel'
@@ -26,6 +27,7 @@ id_to_county = {
     43: "Santa Clara",
 }
 
+@transaction.commit_manually
 def add_run_to_db(run_data):
     #cache_directory = j['cache_directory']
     #host = j['hudson_details']['node']
@@ -83,6 +85,13 @@ def add_run_to_db(run_data):
 
         indicator = Indicator.objects.get_or_create(name=iname)[0]
 
+        # Check if we already have indicators for this run.
+        n = IndicatorData.objects.filter(run_id=run.id, indicator=indicator,
+                                         shape__level__name__exact=lname).count()
+        if n > 0:
+            print "Already have", lname, iname, "for run", str(run_id)
+            continue
+
         # Now we actually fetch the data
         print "Fetching", lname, iname, "for run", str(run_id)
         d = urllib2.urlopen(url + '/' + l)
@@ -108,11 +117,12 @@ def add_run_to_db(run_data):
                 print "WARNING: Failed to find shape",sname,"at level",lname,"for",iname
                 break
             shape = shape[0]
-            map(lambda i: IndicatorData.objects.get_or_create(run=run, shape=shape,
-                                                              indicator=indicator,
-                                                              xvalue=float(i[0]),
-                                                              yvalue=float(i[1])),
+            map(lambda i: IndicatorData(run=run, shape=shape,
+                                        indicator=indicator,
+                                        xvalue=float(i[0]),
+                                        yvalue=float(i[1])).save(),
                 zip(range(year_begin, year_end+1), row[1:]))
+        transaction.commit()
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:

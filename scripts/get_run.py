@@ -84,7 +84,7 @@ def add_run_to_db(run_data):
         indicator = Indicator.objects.get_or_create(name=iname)[0]
 
         # Now we actually fetch the data
-        print "Fetching", iname, "for run", str(run_id)
+        print "Fetching", lname, iname, "for run", str(run_id)
         d = urllib2.urlopen(url + '/' + l)
         reader = csv.reader(d, delimiter='\t')
         header = True

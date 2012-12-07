@@ -43,23 +43,27 @@ Ubuntu
     skip this step if you only need the geographies in data/shapes/counties.
     And of course your db settings and stuff may differ here.
 
-    $ pgsql2shp -f data/shapes/counties.shp
+    $ pgsql2shp -f data/shapes/counties.shp \
       "select name,1 as level_id,the_geom from geography_county where bayarea"
+    $ pgsql2shp -f zones.shp -h paris.urbansim.org -u urbanvision bayarea \
+      "select 'zone_'||zone_id as name,3 as level_id,the_geom from zones"
 
 6b. Populate shape table with initial geography
 
    $ shp2pgsql -g poly -s 3740 -a data/shapes/counties urbangraph_shape urbangraph | psql -U urbangraph -h localhost urbangraph
+   $ shp2pgsql -g poly -s 3740 -a data/shapes/zones urbangraph_shape urbangraph | psql -U urbangraph -h localhost urbangraph
+   $ shp2pgsql -g poly -s 3740 -a data/shapes/superdistricts urbangraph_shape urbangraph | psql -U urbangraph -h localhost urbangraph
 
 7. Launch the development server:
 
    $ python manage.py runserver
 
-7. Point your browser at the development server and expect the front page to
+8. Point your browser at the development server and expect the front page to
    appear
 
    http://localhost:8000/
 
-8. Run the tests:
+9. Run the tests:
 
    $ python manage.py test
 

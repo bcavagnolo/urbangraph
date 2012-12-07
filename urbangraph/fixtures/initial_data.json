@@ -14,5 +14,19 @@
     "fields": {
       "name": "county"
     }
+  },
+  {
+    "model": "urbangraph.level",
+    "pk": 2,
+    "fields": {
+      "name": "superdistrict"
+    }
+  },
+  {
+    "model": "urbangraph.level",
+    "pk": 3,
+    "fields": {
+      "name": "zone"
+    }
   }
 ]

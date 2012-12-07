@@ -29,7 +29,7 @@ Ubuntu
 
    $ sudo su postgres
    $ createuser -P -d -l -R -S urbangraph
-   $ createdb -O urbangraph urbangraph
+   $ createdb -T template_postgis -O urbangraph urbangraph
    $ exit
 
    [ NOTE: the user needs to be able to create DBs to run the tests]
@@ -38,14 +38,28 @@ Ubuntu
 
    $ export DATABASE_URL=postgres://urbangraph:<password>@localhost/urbangraph
    $ python manage.py syncdb
+
+6a. Create suitable shape files for the geographies you need.  You can probably
+    skip this step if you only need the geographies in data/shapes/counties.
+    And of course your db settings and stuff may differ here.
+
+    $ pgsql2shp -f data/shapes/counties.shp
+      "select name,1 as level_id,the_geom from geography_county where bayarea"
+
+6b. Populate shape table with initial geography
+
+   $ shp2pgsql -g poly -s 3740 -a data/shapes/counties urbangraph_shape urbangraph | psql -U urbangraph -h localhost urbangraph
+
+7. Launch the development server:
+
    $ python manage.py runserver
 
-6. Point your browser at the development server and expect the front page to
+7. Point your browser at the development server and expect the front page to
    appear
 
    http://localhost:8000/
 
-7. Run the tests:
+8. Run the tests:
 
    $ python manage.py test
 
@@ -69,6 +83,22 @@ Deploying to Heroku
 4. Expect the updated app to be available here:
 
    http://urbangraph.herokuapp.com/
+
+Getting Run Data
+================
+
+You must set up your machine using the above steps before you can go and fetch
+data, of course.
+
+1. Set up your environment
+    $ source venv/bin/activate
+    $ export PYTHONPATH=$PWD
+    $ export DJANGO_SETTINGS_MODULE=urbangraph.settings
+    $ export DATABASE_URL=postgres://urbangraph:<password>@localhost/urbangraph
+
+2. Go get run data:
+
+    $ python scripts/get_run.py 452
 
 REST API
 ========

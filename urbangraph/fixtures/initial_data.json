@@ -7,5 +7,12 @@
       "description": "This is the parcel-level model of the San Francisco Bay Area.",
       "title": "Bay Area Parcel-Level Model"
     }
+  },
+  {
+    "model": "urbangraph.level",
+    "pk": 1,
+    "fields": {
+      "name": "county"
+    }
   }
 ]

@@ -125,12 +125,11 @@ def add_run_to_db(run_data):
         transaction.commit()
 
 def add_run_to_json(run_data):
-    j = {}
-    j['project_name'] = run_data['project_name']
+    index = open('testdata/index.json', 'w');
+    index.write('[');
+    project_name = run_data['project_name']
     scenario_name = run_data['scenario_name'].replace('_hudson', '')
-    j['scenario_name'] = scenario_name
     run_id = int(run_data['run_id'])
-    j['run_id'] = run_id
 
     # Go fetch the pre-computed indicators.  This requires some scraping.
     try:
@@ -144,10 +143,11 @@ def add_run_to_json(run_data):
     soup = BeautifulSoup(f)
     links = filter(lambda l: l.endswith('.tab'),
                    map(lambda a: a['href'], soup.find_all('a')))
+    first = True
     for l in links:
         m = re.search('(^[a-zA-Z0-9]+)_table-[0-9]_([0-9]+)-([0-9]+)_[a-z]+__([a-zA-Z0-9_]+)\.tab$', l)
         if not m:
-            #print "WARNING: skipping unparsable indicator file", l
+            print "WARNING: skipping unparsable indicator file", l
             continue
         lname = m.group(1)
 
@@ -158,13 +158,17 @@ def add_run_to_json(run_data):
             iname = iname[1:]
         iname = '_'.join(iname)
 
-        # For now, just do county population
-        if lname != 'county' or iname != 'population':
+        # For now, just do county
+        if lname != 'county':
             continue
 
+        j = {}
+        j['project_name'] = project_name
+        j['scenario_name'] = scenario_name
+        j['run_id'] = run_id
         j['name'] = iname
         j['xlabel'] = 'Year'
-        j['ylabel'] = iname,
+        j['ylabel'] = iname
 
         if lname == "area" or lname == "pda":
             # area and pda are different sorts of geography that we're ont
@@ -179,11 +183,23 @@ def add_run_to_json(run_data):
 
         j['level'] = lname
 
+        # create a dumb url
+        filename = 'testdata/' + '_'.join([project_name, iname, str(run_id), lname]) + '.json'
+        j['url'] = '../' + filename
+        f = open(filename, 'w')
+
+        # Add to the index
+        output = json.dumps(j, sort_keys=True, indent=2, separators=(',', ': '))
+        if not first:
+            output = ',\n' + output
+        first = False
+        index.write(output)
+
         # Now we actually fetch the data
         j['xvalues'] = range(year_begin, year_end+1)
         j['yvalues'] = []
 
-        #print "Fetching", lname, iname, "for run", str(run_id)
+        print "Fetching", lname, iname, "for run", str(run_id)
         d = urllib2.urlopen(url + '/' + l)
         reader = csv.reader(d, delimiter='\t')
         header = True
@@ -205,8 +221,11 @@ def add_run_to_json(run_data):
             yval = {'name': sname}
             yval['data'] = map(lambda x: float(x), row[1:])
             j['yvalues'].append(yval)
-        print json.dumps(j, sort_keys=True, indent=2, separators=(',', ': '))
-        break
+        f.write(json.dumps(j, sort_keys=True, indent=2, separators=(',', ': ')))
+        f.close()
+
+    index.write(']\n');
+    index.close();
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:

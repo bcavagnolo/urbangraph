@@ -1,0 +1,460 @@
+[{
+  "level": "county",
+  "name": "commercial_industrial_acres",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_commercial_industrial_acres_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "commercial_industrial_acres"
+},
+{
+  "level": "county",
+  "name": "dwelling_units_mixed_use",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_dwelling_units_mixed_use_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "dwelling_units_mixed_use"
+},
+{
+  "level": "county",
+  "name": "dwelling_units_multi_family",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_dwelling_units_multi_family_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "dwelling_units_multi_family"
+},
+{
+  "level": "county",
+  "name": "dwelling_units_single_family_attached",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_dwelling_units_single_family_attached_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "dwelling_units_single_family_attached"
+},
+{
+  "level": "county",
+  "name": "dwelling_units_single_family_detatched",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_dwelling_units_single_family_detatched_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "dwelling_units_single_family_detatched"
+},
+{
+  "level": "county",
+  "name": "dwelling_units_within_half_mile_transit",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_dwelling_units_within_half_mile_transit_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "dwelling_units_within_half_mile_transit"
+},
+{
+  "level": "county",
+  "name": "empl_pda_pct",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_empl_pda_pct_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "empl_pda_pct"
+},
+{
+  "level": "county",
+  "name": "empl_tpp_pct",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_empl_tpp_pct_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "empl_tpp_pct"
+},
+{
+  "level": "county",
+  "name": "employed_residents",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_employed_residents_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "employed_residents"
+},
+{
+  "level": "county",
+  "name": "employment",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_employment_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "employment"
+},
+{
+  "level": "county",
+  "name": "employment_density",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_employment_density_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "employment_density"
+},
+{
+  "level": "county",
+  "name": "employment_pda",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_employment_pda_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "employment_pda"
+},
+{
+  "level": "county",
+  "name": "employment_tpp",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_employment_tpp_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "employment_tpp"
+},
+{
+  "level": "county",
+  "name": "empres_pda",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_empres_pda_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "empres_pda"
+},
+{
+  "level": "county",
+  "name": "empres_pda_pct",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_empres_pda_pct_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "empres_pda_pct"
+},
+{
+  "level": "county",
+  "name": "empres_tpp",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_empres_tpp_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "empres_tpp"
+},
+{
+  "level": "county",
+  "name": "empres_tpp_pct",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_empres_tpp_pct_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "empres_tpp_pct"
+},
+{
+  "level": "county",
+  "name": "hh_pda_pct",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_hh_pda_pct_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "hh_pda_pct"
+},
+{
+  "level": "county",
+  "name": "hh_tpp_pct",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_hh_tpp_pct_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "hh_tpp_pct"
+},
+{
+  "level": "county",
+  "name": "households",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_households_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "households"
+},
+{
+  "level": "county",
+  "name": "households_pda",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_households_pda_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "households_pda"
+},
+{
+  "level": "county",
+  "name": "households_tpp",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_households_tpp_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "households_tpp"
+},
+{
+  "level": "county",
+  "name": "jobs_within_half_mile_transit",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_jobs_within_half_mile_transit_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "jobs_within_half_mile_transit"
+},
+{
+  "level": "county",
+  "name": "mixed_use_dwelling_units",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_mixed_use_dwelling_units_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "mixed_use_dwelling_units"
+},
+{
+  "level": "county",
+  "name": "multi_family_dwelling_units",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_multi_family_dwelling_units_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "multi_family_dwelling_units"
+},
+{
+  "level": "county",
+  "name": "non_residential_sqft",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_non_residential_sqft_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "non_residential_sqft"
+},
+{
+  "level": "county",
+  "name": "non_residential_sqft_big_box_retail",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_non_residential_sqft_big_box_retail_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "non_residential_sqft_big_box_retail"
+},
+{
+  "level": "county",
+  "name": "non_residential_sqft_employment_focused_mixed_use",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_non_residential_sqft_employment_focused_mixed_use_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "non_residential_sqft_employment_focused_mixed_use"
+},
+{
+  "level": "county",
+  "name": "non_residential_sqft_heavy_industrial",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_non_residential_sqft_heavy_industrial_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "non_residential_sqft_heavy_industrial"
+},
+{
+  "level": "county",
+  "name": "non_residential_sqft_light_industrial",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_non_residential_sqft_light_industrial_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "non_residential_sqft_light_industrial"
+},
+{
+  "level": "county",
+  "name": "non_residential_sqft_office",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_non_residential_sqft_office_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "non_residential_sqft_office"
+},
+{
+  "level": "county",
+  "name": "non_residential_sqft_residential_focused_mixed_use",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_non_residential_sqft_residential_focused_mixed_use_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "non_residential_sqft_residential_focused_mixed_use"
+},
+{
+  "level": "county",
+  "name": "non_residential_sqft_retail_focused_mixed_use",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_non_residential_sqft_retail_focused_mixed_use_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "non_residential_sqft_retail_focused_mixed_use"
+},
+{
+  "level": "county",
+  "name": "non_residential_sqft_strip_mall_retail",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_non_residential_sqft_strip_mall_retail_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "non_residential_sqft_strip_mall_retail"
+},
+{
+  "level": "county",
+  "name": "non_residential_sqft_warehouse_industrial",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_non_residential_sqft_warehouse_industrial_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "non_residential_sqft_warehouse_industrial"
+},
+{
+  "level": "county",
+  "name": "owner_dwelling_units",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_owner_dwelling_units_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "owner_dwelling_units"
+},
+{
+  "level": "county",
+  "name": "pop_pda_pct",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_pop_pda_pct_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "pop_pda_pct"
+},
+{
+  "level": "county",
+  "name": "pop_tpp_pct",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_pop_tpp_pct_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "pop_tpp_pct"
+},
+{
+  "level": "county",
+  "name": "population",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_population_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "population"
+},
+{
+  "level": "county",
+  "name": "population_within_half_mile_transit",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_population_within_half_mile_transit_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "population_within_half_mile_transit"
+},
+{
+  "level": "county",
+  "name": "rental_dwelling_units",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_rental_dwelling_units_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "rental_dwelling_units"
+},
+{
+  "level": "county",
+  "name": "residential_acres",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_residential_acres_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "residential_acres"
+},
+{
+  "level": "county",
+  "name": "single_family_dwelling_units",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_single_family_dwelling_units_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "single_family_dwelling_units"
+},
+{
+  "level": "county",
+  "name": "total_dwelling_units",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_total_dwelling_units_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "total_dwelling_units"
+},
+{
+  "level": "county",
+  "name": "urbanized_acres",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_urbanized_acres_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "urbanized_acres"
+},
+{
+  "level": "county",
+  "name": "nonres_occupancy_ratio",
+  "project_name": "bay_area_parcel",
+  "run_id": 474,
+  "scenario_name": "Infill",
+  "url": "../testdata/bay_area_parcel_nonres_occupancy_ratio_474_county.json",
+  "xlabel": "Year",
+  "ylabel": "nonres_occupancy_ratio"
+}]

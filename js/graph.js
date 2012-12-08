@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+  var datasetList;
+
   try {
     google.load("visualization", "1", {packages:["corechart"]});
     google.setOnLoadCallback(prepareUI);
@@ -8,7 +10,25 @@ $(document).ready(function() {
   }
 
   function prepareUI() {
+    // default to county population
     drawChart('../testdata/county_population.json');
+    $.ajax({
+      url: '../testdata/index.json',
+      dataType: 'json',
+      success: function(data) {
+        var options = {
+          valueNames: [ 'name', 'run_id', 'scenario_name' ],
+          item: "<li><span class='name'></span>" +
+            "<span class='run_id'></span>" +
+            "<span class='scenario_name'></span></li>"
+        };
+        datasetList = new List('dataset-list', options, data);
+      },
+      error: function(data) {
+        console.log("WARNING: Failed to fetch index.");
+        console.log(data);
+      }
+    });
   }
 
   function drawChart(url) {
@@ -40,7 +60,7 @@ $(document).ready(function() {
             title: data.xlabel,
           },
         };
-        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.LineChart(document.getElementById('chart'));
         chart.draw(google.visualization.arrayToDataTable(masterarray), options);
       },
       error: function(data) {

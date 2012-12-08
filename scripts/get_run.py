@@ -147,9 +147,10 @@ def add_run_to_json(run_data):
     for l in links:
         m = re.search('(^[a-zA-Z0-9]+)_table-[0-9]_([0-9]+)-([0-9]+)_[a-z]+__([a-zA-Z0-9_]+)\.tab$', l)
         if not m:
-            print "WARNING: skipping unparsable indicator file", l
+            #print "WARNING: skipping unparsable indicator file", l
             continue
         lname = m.group(1)
+
         year_begin = int(m.group(2))
         year_end = int(m.group(3))
         iname = m.group(4).split('_')
@@ -157,7 +158,13 @@ def add_run_to_json(run_data):
             iname = iname[1:]
         iname = '_'.join(iname)
 
-        j['indicator'] = iname
+        # For now, just do county population
+        if lname != 'county' or iname != 'population':
+            continue
+
+        j['name'] = iname
+        j['xlabel'] = 'Year'
+        j['ylabel'] = iname,
 
         if lname == "area" or lname == "pda":
             # area and pda are different sorts of geography that we're ont
@@ -173,10 +180,10 @@ def add_run_to_json(run_data):
         j['level'] = lname
 
         # Now we actually fetch the data
-        j['xvalue'] = range(year_begin, year_end+1)
-        j['yvalue'] = []
+        j['xvalues'] = range(year_begin, year_end+1)
+        j['yvalues'] = []
 
-        print "Fetching", lname, iname, "for run", str(run_id)
+        #print "Fetching", lname, iname, "for run", str(run_id)
         d = urllib2.urlopen(url + '/' + l)
         reader = csv.reader(d, delimiter='\t')
         header = True
@@ -197,7 +204,7 @@ def add_run_to_json(run_data):
                     continue
             yval = {'name': sname}
             yval['data'] = map(lambda x: float(x), row[1:])
-            j['yvalue'].append(yval)
+            j['yvalues'].append(yval)
         print json.dumps(j, sort_keys=True, indent=2, separators=(',', ': '))
         break
 

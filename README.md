@@ -12,9 +12,9 @@ Setting Up Your Development Machine
 Ubuntu
 ------
 
-1. Install postgres, python, and virtualenv:
+1. Install postgres, postgis, python, and virtualenv:
 
-   $ sudo apt-get install postgresql python python-virtualenv
+   $ sudo apt-get install postgresql python python-virtualenv postgresql-postgis
 
 2. Check out the urbangraph code and cd into the directory
 
@@ -36,7 +36,7 @@ Ubuntu
 
 5. Sync the django app's db and launch the development server
 
-   $ export DATABASE_URL=postgres://urbangraph:<password>@localhost/urbangraph
+   $ export DATABASE_URL=postgis://urbangraph:<password>@localhost/urbangraph
    $ python manage.py syncdb
 
 6a. Create suitable shape files for the geographies you need.  You can probably
@@ -98,7 +98,7 @@ data, of course.
     $ source venv/bin/activate
     $ export PYTHONPATH=$PWD
     $ export DJANGO_SETTINGS_MODULE=urbangraph.settings
-    $ export DATABASE_URL=postgres://urbangraph:<password>@localhost/urbangraph
+    $ export DATABASE_URL=postgis://urbangraph:<password>@localhost/urbangraph
 
 2. Go get run data:
 
@@ -358,3 +358,10 @@ sample output for the population indicator:
          }
         ]
     }
+
+TODO
+====
+
+-- Implement POST/PUT to update titles and descriptions
+-- Use south to implement DB migration
+-- Add Date field to run

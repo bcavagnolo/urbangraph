@@ -109,7 +109,7 @@ height:800px;
 	float:left;
 	
     padding-left: 10px;
-    overflow-y: auto;
+    overflow-y: hidden;
     overflow-x: hidden;
     border-radius:15px;
     float: left;
@@ -162,4 +162,19 @@ margin-right: 8px;
 color: white;
 }
 
+#list-container {
+	height: 450px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
 
+#list-container ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.dataset-inner li {
+    list-style-type: none;
+    padding-left: 10px;
+}

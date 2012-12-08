@@ -9,20 +9,34 @@ $(document).ready(function() {
     alert("bad");
   }
 
+  function datasetToHTML(d) {
+    html = "<li><a class='dataset name' href='" + d.url + "'>" +
+      d.name + "</a><ul class='dataset-inner'>" +
+      "<li class='run_id'>Run " + d.run_id + "</li>" +
+      "<li class='scenario_name'>" + d.scenario_name + " Scenario</li>" +
+      "</ul></li>"
+    return html;
+  }
+
   function prepareUI() {
-    // default to county population
-    drawChart('../testdata/county_population.json');
     $.ajax({
       url: '../testdata/index.json',
       dataType: 'json',
       success: function(data) {
+        for (var i=0; i<data.length; i++) {
+          $('#dataset-list .list').append(datasetToHTML(data[i]));
+        }
         var options = {
-          valueNames: [ 'name', 'run_id', 'scenario_name' ],
-          item: "<li><span class='name'></span>" +
-            "<span class='run_id'></span>" +
-            "<span class='scenario_name'></span></li>"
+          valueNames: [ 'name', 'run_id', 'scenario_name'],
         };
-        datasetList = new List('dataset-list', options, data);
+        datasetList = new List('dataset-list', options);
+
+		$(".dataset").live("click", function(event) {
+          drawChart(this.href);
+          return false;
+		});
+
+        drawChart(data[0].url);
       },
       error: function(data) {
         console.log("WARNING: Failed to fetch index.");

@@ -5,7 +5,8 @@
 	 <script src="http://d3js.org/d3.v2.js"></script>
 	<script src="../js/graph.js"></script>
     <script src="../js/list.js"></script>
-  <link rel="stylesheet" type="text/css" href="../css/urbanstyle.css" />
+    <link rel="stylesheet" type="text/css" href="../css/urbanstyle.css" />
+    <link rel="stylesheet" type="text/css" href="../static/main_page.css" />
 
 	<script type="text/javascript">
       
@@ -14,12 +15,23 @@
     </script>
   </head>
   <body>
-    <div id="icon">URBAN<span id="graph">graph</span></div>
-    <div id="chart"></div>
-    <div id="example-list">
-        <input class="search" />
-        <span class="sort" data-sort="name">Sort features</span>
-        <ul class="list"></ul>
-    </div>
+      <div id="container">
+          <div id="headbanner">
+	          <div id="icon">URBAN<span id="graph">graph</span></div>
+          </div>
+          <div id="content-left">
+              <div id="dataset-list">
+                  <p>Find datasets by name, run id, or scenario:</p>
+                  <input class="search" />
+                  <!-- <button data-sort="name" class="sort button">Sort</button> -->
+                  <div id="list-container">
+                      <ul class="list"></ul>
+                  </div>
+              </div>
+          </div>
+          <div id="content-right">
+              <div id="chart"></div>
+          </div>
+      </div>
   </body>
 </html>

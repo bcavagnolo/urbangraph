@@ -33,7 +33,7 @@ $(document).ready(function() {
       title = slugToProper(d.name);
 
     html = "<li><a class='dataset name' href='" + d.url + "'>" +
-      title + "</a><ul class='dataset-inner'>" +
+      title + "</a><ul>" +
       "<li class='run_id'>Run #" + d.run_id + "</li>" +
       "<li class='scenario_name'>" + scenario_title + " Scenario</li>" +
       "</ul></li>"
@@ -57,6 +57,16 @@ $(document).ready(function() {
           drawChart(this.href);
           return false;
 		});
+
+        $('#list-container > ul').find('li').each(function() {
+          $(this).prepend('<span class="icon"></span>');
+        });
+        $('#list-container > ul').find('li:has(> ul)').each(function() {
+          $(this).addClass('parent');
+        });
+        $('#list-container li.parent > span.icon').click(function() {
+          $(this).parent().toggleClass('open');
+        });
 
         drawChart(data[0].url);
       },

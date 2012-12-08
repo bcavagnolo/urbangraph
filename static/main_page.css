@@ -181,7 +181,33 @@ color: white;
     padding: 0px;
 }
 
-.dataset-inner li {
-    list-style-type: none;
-    padding-left: 10px;
+#list-container ul {
+    list-style-type:none;
+    white-space: nowrap;
+}
+#list-container ul ul {
+    left:-9999px;
+    list-style-type:none;
+    padding-left:20px;
+    position:absolute
+}
+#list-container li.open > ul {
+    position:static;
+}
+#list-container li > span.icon {
+    background:url(list.png) no-repeat;
+    display:inline-block;
+    height:16px;
+    margin-right:3px;
+    vertical-align:text-top;
+    width:16px;
+}
+#list-container li:last-child > span.icon {
+    background-position:0 -16px;
+}
+#list-container li.parent > span.icon {
+    background-position:0 -32px;
+}
+#list-container li.open > span.icon {
+    background-position:0 -48px;
 }

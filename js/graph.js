@@ -2,6 +2,20 @@ var data;
 var seriesarr=[];
 var masterarray =[];
 
+// This is the id-to-county mapping.  These mapping will ultimately be hanlded
+// by the back end.
+id_to_county = {
+    1: "Alameda",
+    7: "Contra Costa",
+    21: "Marin",
+    38: "San Francisco",
+    28: "Napa",
+    41: "San Mateo",
+    48: "Solano",
+    49: "Sonoma",
+    43: "Santa Clara",
+}
+
 $(document).ready(function() {
 
   try {
@@ -17,48 +31,42 @@ $(document).ready(function() {
 
     d3.text(fileurl,function(datasetText){
       var dataset = d3.tsv.parse(datasetText);
-      console.log("rohan look at me ",dataset);
       for (var i = 0; i< dataset.length; i++){
         var series = [];
         var serobj = dataset[i];
-        //console.log(dataset[i])
         for (var key in serobj){
           series.push(serobj[key]);
         }
-        console.log("I'm here again mutherfucker")
-        seriesarr.push(series);
+
+        if (id_to_county[series[0]]) {
+          // Only show data for bayarea counties
+          series[0] = id_to_county[series[0]]
+          seriesarr.push(series);
+        }
       }
 
       var initialyear = 2010;
-      console.log("seriesarr[0] length ",seriesarr.length);
 
-      for (var i=0;i<seriesarr[0].length;i++){
-        var temparr = []
+      for (var i=0; i<seriesarr[0].length; i++){
+        var temparr = [];
         if (i ==0) {
           temparr[0] = "Year";
         }
         else{
           temparr[0] = initialyear+'';
-          initialyear = initialyear + 2;
+          initialyear = initialyear + 1;
         }
         for (var j = 1;j<seriesarr.length;j++){
           var temp = seriesarr[j][i];
-          if(i==0)
+          if(i==0) {
             temparr.push(temp);
-          else
+          } else {
             temparr.push(parseInt(temp));
+          }
         }
         masterarray.push(temparr);
-        console.log(temparr.length);
       }
-
-      console.log(masterarray);
-      console.log(masterarray.length);
-      console.log("look");
-      console.log(masterarray);
       data = google.visualization.arrayToDataTable(masterarray);
-      //console.log(data);
-
 
       var options = {
         title: 'County Data'

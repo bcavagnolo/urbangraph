@@ -124,6 +124,83 @@ def add_run_to_db(run_data):
                 zip(range(year_begin, year_end+1), row[1:]))
         transaction.commit()
 
+def add_run_to_json(run_data):
+    j = {}
+    j['project_name'] = run_data['project_name']
+    scenario_name = run_data['scenario_name'].replace('_hudson', '')
+    j['scenario_name'] = scenario_name
+    run_id = int(run_data['run_id'])
+    j['run_id'] = run_id
+
+    # Go fetch the pre-computed indicators.  This requires some scraping.
+    try:
+        url = INDICATOR_URL + '/' + scenario_name + '/run_' + str(run_id) + \
+              '/indicators'
+        f = urllib2.urlopen(url)
+    except urllib2.HTTPError as e:
+        print "WARNING: No precomputed indicators available for run " + \
+              str(run_id)
+        return
+    soup = BeautifulSoup(f)
+    links = filter(lambda l: l.endswith('.tab'),
+                   map(lambda a: a['href'], soup.find_all('a')))
+    for l in links:
+        m = re.search('(^[a-zA-Z0-9]+)_table-[0-9]_([0-9]+)-([0-9]+)_[a-z]+__([a-zA-Z0-9_]+)\.tab$', l)
+        if not m:
+            print "WARNING: skipping unparsable indicator file", l
+            continue
+        lname = m.group(1)
+        year_begin = int(m.group(2))
+        year_end = int(m.group(3))
+        iname = m.group(4).split('_')
+        if iname[0] == lname:
+            iname = iname[1:]
+        iname = '_'.join(iname)
+
+        j['indicator'] = iname
+
+        if lname == "area" or lname == "pda":
+            # area and pda are different sorts of geography that we're ont
+            # working with at this time.  They also do not match our data
+            # model.  So we ignore them.
+            continue
+
+        if lname == "alldata":
+            # alldata is a very undescriptive name.  So we call it region
+            # instead.
+            lname = "region"
+
+        j['level'] = lname
+
+        # Now we actually fetch the data
+        j['xvalue'] = range(year_begin, year_end+1)
+        j['yvalue'] = []
+
+        print "Fetching", lname, iname, "for run", str(run_id)
+        d = urllib2.urlopen(url + '/' + l)
+        reader = csv.reader(d, delimiter='\t')
+        header = True
+        for row in reader:
+            # all of the data in our case is id,t,t+1,t+2... with a header that
+            # we ignore
+            if header:
+                header = False
+                continue
+
+            # find the associated shape
+            sname = lname + '_' + row[0]
+            if lname == "county":
+                try:
+                    sname = id_to_county[int(row[0])]
+                except KeyError:
+                    # skip rows with unknown counties.
+                    continue
+            yval = {'name': sname}
+            yval['data'] = map(lambda x: float(x), row[1:])
+            j['yvalue'].append(yval)
+        print json.dumps(j, sort_keys=True, indent=2, separators=(',', ': '))
+        break
+
 if __name__ == '__main__':
     if len(sys.argv) != 2:
         print "Usage: get_run.py <run_id>"
@@ -141,4 +218,5 @@ if __name__ == '__main__':
         sys.exit(1)
 
     run_data = json.loads(f.read())
-    add_run_to_db(run_data)
+    #add_run_to_db(run_data)
+    add_run_to_json(run_data)

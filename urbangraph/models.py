@@ -36,6 +36,7 @@ class Scenario(models.Model):
 
 class Run(models.Model):
     id = models.IntegerField(unique=True, primary_key=True)
+    project = models.ForeignKey(Project)
     name = models.CharField(max_length=200)
     scenario = models.ForeignKey(Scenario)
 

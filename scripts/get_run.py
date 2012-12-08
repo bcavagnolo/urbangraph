@@ -44,7 +44,7 @@ def add_run_to_db(run_data):
 
     # And the run data
     run_id = int(run_data['run_id'])
-    run = Run.objects.get_or_create(id=run_id, scenario=scenario)[0]
+    run = Run.objects.get_or_create(id=run_id, scenario=scenario, project=project)[0]
 
     # Go fetch the pre-computed indicators.  This requires some scraping.
     try:

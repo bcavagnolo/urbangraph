@@ -169,6 +169,13 @@ color: white;
 }
 
 #list-container ul {
+	font-family: "American Typewriter", sans-serif;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+#list-container ul {
     list-style-type: none;
     margin: 0px;
     padding: 0px;

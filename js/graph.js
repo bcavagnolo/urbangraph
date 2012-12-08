@@ -9,11 +9,33 @@ $(document).ready(function() {
     alert("bad");
   }
 
+  function slugToProper(string) {
+    var parts = string.split('_');
+    var first = true;
+    var output = '';
+    for (var i=0; i<parts.length; i++) {
+      if (!first) {
+        output += ' ';
+      }
+      first = false;
+      output += parts[i].charAt(0).toUpperCase() +
+        parts[i].slice(1);
+    }
+    return output;
+  }
+
   function datasetToHTML(d) {
+    var scenario_title = d.scenario_title;
+    if (!scenario_title)
+      scenario_title = d.scenario_name.replace('_', ' ');
+    var title = d.title;
+    if (!title)
+      title = slugToProper(d.name);
+
     html = "<li><a class='dataset name' href='" + d.url + "'>" +
-      d.name + "</a><ul class='dataset-inner'>" +
-      "<li class='run_id'>Run " + d.run_id + "</li>" +
-      "<li class='scenario_name'>" + d.scenario_name + " Scenario</li>" +
+      title + "</a><ul class='dataset-inner'>" +
+      "<li class='run_id'>Run #" + d.run_id + "</li>" +
+      "<li class='scenario_name'>" + scenario_title + " Scenario</li>" +
       "</ul></li>"
     return html;
   }
@@ -65,10 +87,16 @@ $(document).ready(function() {
           masterarray.push(column);
         }
 
+        var title = data.title;
+        if (!title)
+          title = slugToProper(data.name);
+        if (data.level)
+          title += ' By ' + slugToProper(data.level);
+
         var options = {
-          title: data.title,
+          title: title,
           vAxis: {
-            title: data.ylabel,
+            title: slugToProper(data.ylabel),
           },
           hAxis: {
             title: data.xlabel,

@@ -16,20 +16,38 @@ id_to_county = {
     43: "Santa Clara",
 }
 
+datasets = [
+    {
+      url: '../testdata/county_table-3_2010-2040_county__county_population.tab.txt',
+      run_id: 46,
+      level: 'county',
+      name: 'population',
+      title: 'Population over Time',
+      xlabel: 'Year',
+      ylabel: 'Population',
+      xvalues: ['2010', '2011', '2012', '2012', '2013', '2014', '2015', '2016', '2017', '2018',
+                '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028',
+                '2029', '2030', '2031', '2032', '2033', '2034', '2035', '2036', '2037', '2038',
+                '2039', '2040'],
+    },
+];
+
 $(document).ready(function() {
 
   try {
     google.load("visualization", "1", {packages:["corechart"]});
-    google.setOnLoadCallback(drawChart);
+    google.setOnLoadCallback(prepareUI);
   } catch(e) {
     alert("bad");
   }
 
-  function drawChart() {
+  function prepareUI() {
+    drawChart(datasets[0])
+  }
 
-    var fileurl = "../testdata/county_table-3_2010-2040_county__county_population.tab.txt";
+  function drawChart(data) {
 
-    d3.text(fileurl,function(datasetText){
+    d3.text(data.url, function(datasetText) {
       var dataset = d3.tsv.parse(datasetText);
       for (var i = 0; i< dataset.length; i++){
         var series = [];
@@ -45,16 +63,12 @@ $(document).ready(function() {
         }
       }
 
-      var initialyear = 2010;
-
       for (var i=0; i<seriesarr[0].length; i++){
         var temparr = [];
         if (i ==0) {
-          temparr[0] = "Year";
-        }
-        else{
-          temparr[0] = initialyear+'';
-          initialyear = initialyear + 1;
+          temparr[0] = data.xlabel;
+        } else {
+          temparr[0] = data.xvalues[i-1];
         }
         for (var j = 0;j<seriesarr.length;j++){
           var temp = seriesarr[j][i];
@@ -66,13 +80,12 @@ $(document).ready(function() {
         }
         masterarray.push(temparr);
       }
-      data = google.visualization.arrayToDataTable(masterarray);
 
       var options = {
-        title: 'County Data'
+        title: data.title
       };
       var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-      chart.draw(data, options);
+      chart.draw(google.visualization.arrayToDataTable(masterarray), options);
 
     });
   }

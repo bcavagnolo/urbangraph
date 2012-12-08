@@ -56,7 +56,7 @@ $(document).ready(function() {
           temparr[0] = initialyear+'';
           initialyear = initialyear + 1;
         }
-        for (var j = 1;j<seriesarr.length;j++){
+        for (var j = 0;j<seriesarr.length;j++){
           var temp = seriesarr[j][i];
           if(i==0) {
             temparr.push(temp);

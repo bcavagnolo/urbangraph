@@ -146,8 +146,11 @@ $(document).ready(function() {
         if (data.level)
           title += ' By ' + slugToProper(data.level);
 
+        var subtitle = data.scenario_name.replace('_', ' ') +
+          ' Scenario, Run ' + data.run_id;
+        $('#chart-title').html(title);
+        $('#chart-subtitle').html(subtitle);
         var options = {
-          title: title,
           vAxis: {
             title: slugToProper(data.ylabel),
           },
@@ -197,16 +200,18 @@ $(document).ready(function() {
         if (data.level)
           title += ' By ' + slugToProper(data.level) + ' (' + xval + ')';
 
+        var subtitle = data.scenario_name.replace('_', ' ') +
+          ' Scenario, Run ' + data.run_id;
+        $('#chart-title').html(title);
+        $('#chart-subtitle').html(subtitle);
+
         var masterarray = [[slugToProper(data.level), title]];
         for (var i=0; i<data.yvalues.length; i++) {
           masterarray.push([data.yvalues[i].name, data.yvalues[i].data[index]]);
         }
 
-        var options = {
-          title: title,
-        };
         var chart = new google.visualization.PieChart(document.getElementById('chart'));
-        chart.draw(google.visualization.arrayToDataTable(masterarray), options);
+        chart.draw(google.visualization.arrayToDataTable(masterarray));
         populateXValFields(data);
       },
       error: function(data) {
@@ -290,7 +295,7 @@ $(document).ready(function() {
     return false;
   });
 
-  $('#xval_select').click(function() {
+  $('#xval_select').change(function() {
     chartEvent({type: EVENT.DRAW_PIE});
     return false;
   });

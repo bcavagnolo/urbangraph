@@ -219,7 +219,7 @@ a {
 
 #chart {
     width: 880px;
-    height: 480px;
+    height: 420px;
     margin: auto;
 }
 
@@ -270,3 +270,18 @@ a {
     width: 100px;
 }
 
+#chart-title-block {
+    text-align: center;
+    width: 890px;
+    padding-top: 8px;
+    height: 60px;
+}
+
+#chart-title {
+	font-size: 25;
+}
+
+#chart-subtitle {
+	font-size: 16;
+    color: gray;
+}

@@ -87,10 +87,10 @@ $(document).ready(function() {
         };
         datasetList = new List('dataset-list', options);
 
-		$(".dataset").live("click", function(event) {
-          drawChart(this.href);
+        $(".dataset").live("click", function(event) {
+          chartEvent({type: EVENT.DRAW, url: this.href});
           return false;
-		});
+        });
 
         $('#list-container > ul').find('li').each(function() {
           $(this).prepend('<span class="icon"></span>');
@@ -102,7 +102,7 @@ $(document).ready(function() {
           $(this).parent().toggleClass('open');
         });
         setupAntiscroll();
-        drawChart(data[0].url);
+        chartEvent({type: EVENT.DRAW_LINE, url: data[0].url});
       },
       error: function(data) {
         console.log("WARNING: Failed to fetch index.");
@@ -111,13 +111,13 @@ $(document).ready(function() {
     });
   }
 
-  function drawChart(url) {
+  function drawLine(url) {
     $.ajax({
       url: url,
       dataType: 'json',
       success: function(data) {
-        var masterarray = [];
         var column = [data.xlabel];
+        var masterarray = [];
         for (var i=0; i<data.yvalues.length; i++) {
           column.push(data.yvalues[i].name);
         }
@@ -154,5 +154,107 @@ $(document).ready(function() {
       }
     });
   }
+
+  function drawPie(url, xval) {
+    $.ajax({
+      url: url,
+      dataType: 'json',
+      success: function(data) {
+
+        var index = -1;
+        if (!xval) {
+          xval = data.xvalues[0];
+          index = 0;
+        } else {
+          index = -1;
+          for (var i=0; i<data.xvalues.length; i++) {
+            if (data.xvalues[i] == xval) {
+              index = i;
+              break;
+            }
+          }
+          if (index == -1) {
+            xval = data.xvalues[0];
+            index = 0;
+          } else {
+            xval = data.xvalues[index];
+          }
+        }
+
+        var title = data.title;
+        if (!title)
+          title = slugToProper(data.name);
+        if (data.level)
+          title += ' By ' + slugToProper(data.level) + ' (' + xval + ')';
+
+        var masterarray = [[slugToProper(data.level), title]];
+        for (var i=0; i<data.yvalues.length; i++) {
+          masterarray.push([data.yvalues[i].name, data.yvalues[i].data[index]]);
+        }
+
+        var options = {
+          title: title,
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('chart'));
+        chart.draw(google.visualization.arrayToDataTable(masterarray), options);
+      },
+      error: function(data) {
+        console.log("WARNING: Failed to fetch data for pie.");
+      }
+    });
+  }
+
+  // Things can get complicated.  Use a proper state machine.  No other
+  // functions in this file should be stateful.
+  var STATE = {
+    LINE : 0,
+    PIE: 1,
+  };
+  var state = STATE.LINE;
+
+  var EVENT = {
+    DRAW : 0,
+    DRAW_PIE : 1,
+    DRAW_LINE: 2,
+    TOGGLE_CHART_TYPE: 3,
+  };
+  var currentURL;
+
+  function chartEvent(event) {
+
+    switch (state) {
+    case STATE.LINE:
+      currentURL = event.url || currentURL;
+      if (event.type == EVENT.DRAW_LINE || event.type == EVENT.DRAW) {
+        drawLine(currentURL);
+      } else if (event.type == EVENT.DRAW_PIE) {
+        drawPie(currentURL);
+        state = STATE.PIE;
+      } else if (event.type == EVENT.TOGGLE_CHART_TYPE) {
+        $('#chart-type').text("See Line Chart")
+        drawPie(currentURL);
+        state = STATE.PIE;
+      }
+      break;
+    case STATE.PIE:
+      currentURL = event.url || currentURL;
+      if (event.type == EVENT.DRAW_LINE) {
+        drawLine(currentURL);
+        state = STATE.LINE;
+      } else if (event.type == EVENT.DRAW_PIE || event.type == EVENT.DRAW) {
+        drawPie(currentURL);
+      } else if (event.type == EVENT.TOGGLE_CHART_TYPE) {
+        $('#chart-type').text("See Pie Chart")
+        drawLine(currentURL);
+        state = STATE.LINE;
+      }
+      break;
+    }
+  }
+
+  $('#chart-type').click(function() {
+    chartEvent({type: EVENT.TOGGLE_CHART_TYPE});
+    return false;
+  });
   return false;
 });

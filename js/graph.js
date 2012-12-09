@@ -111,6 +111,15 @@ $(document).ready(function() {
     });
   }
 
+  function populateXValFields(data) {
+    $('label[for=xval_select]').html(data.xlabel + ':');
+    s = $('#xval_select');
+    for (i in data.xvalues) {
+      s.append('<option value="' + data.xvalues[i] + '" >' +
+               data.xvalues[i] + '</option>');
+    }
+  }
+
   function drawLine(url) {
     $.ajax({
       url: url,
@@ -148,6 +157,7 @@ $(document).ready(function() {
         };
         var chart = new google.visualization.LineChart(document.getElementById('chart'));
         chart.draw(google.visualization.arrayToDataTable(masterarray), options);
+        populateXValFields(data);
       },
       error: function(data) {
         console.log("WARNING: Failed to fetch data.");
@@ -197,6 +207,7 @@ $(document).ready(function() {
         };
         var chart = new google.visualization.PieChart(document.getElementById('chart'));
         chart.draw(google.visualization.arrayToDataTable(masterarray), options);
+        populateXValFields(data);
       },
       error: function(data) {
         console.log("WARNING: Failed to fetch data for pie.");
@@ -228,11 +239,11 @@ $(document).ready(function() {
       if (event.type == EVENT.DRAW_LINE || event.type == EVENT.DRAW) {
         drawLine(currentURL);
       } else if (event.type == EVENT.DRAW_PIE) {
-        drawPie(currentURL, event.xval);
+        drawPie(currentURL, event.xval, $('#xval_select').val());
         state = STATE.PIE;
         updateControls();
       } else if (event.type == EVENT.TOGGLE_CHART_TYPE) {
-        drawPie(currentURL);
+        drawPie(currentURL, $('#xval_select').val());
         state = STATE.PIE;
         updateControls();
       }
@@ -244,7 +255,7 @@ $(document).ready(function() {
         state = STATE.LINE;
         updateControls();
       } else if (event.type == EVENT.DRAW_PIE || event.type == EVENT.DRAW) {
-        drawPie(currentURL);
+        drawPie(currentURL, $('#xval_select').val());
       } else if (event.type == EVENT.TOGGLE_CHART_TYPE) {
         drawLine(currentURL);
         state = STATE.LINE;
@@ -276,6 +287,11 @@ $(document).ready(function() {
 
   $('#line-chart').click(function() {
     chartEvent({type: EVENT.DRAW_LINE});
+    return false;
+  });
+
+  $('#xval_select').click(function() {
+    chartEvent({type: EVENT.DRAW_PIE});
     return false;
   });
 

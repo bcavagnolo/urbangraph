@@ -24,6 +24,40 @@ $(document).ready(function() {
     return output;
   }
 
+  // From antiscroll documentation
+  function setupAntiscroll() {
+    scroller = $('.box-wrap').antiscroll().data('antiscroll');
+
+    $("#addRow").click(function() {
+      $('.box-wrap tr:last').clone().appendTo('.box-wrap table');
+      $("#rows b").text($(".box-wrap tr").length);
+      scroller.refresh();
+    });
+
+    $("#removeRow").click(function() {
+      $('.box-wrap tr:last').remove();
+      $("#rows b").text($(".box-wrap tr").length);
+      scroller.refresh();
+    });
+
+    $("#addCol").click(function() {
+      $('.box-wrap tr').each(function(index, tr) {
+        $('td:last', tr).clone().appendTo(tr);
+      });
+      $("#cols b").text($(".box-wrap tr:last td").length);
+      scroller.refresh();
+    });
+
+    $("#removeCol").click(function() {
+      $('.box-wrap tr').find('td:last').remove();
+      $("#cols b").text($(".box-wrap tr:last td").length);
+      scroller.refresh();
+    });
+
+    $("#rows b").text($(".box-wrap tr").length);
+    $("#cols b").text($(".box-wrap tr:last td").length);
+  }
+
   function datasetToHTML(d) {
     var scenario_title = d.scenario_title;
     if (!scenario_title)
@@ -67,7 +101,7 @@ $(document).ready(function() {
         $('#list-container li.parent > span.icon').click(function() {
           $(this).parent().toggleClass('open');
         });
-
+        setupAntiscroll();
         drawChart(data[0].url);
       },
       error: function(data) {

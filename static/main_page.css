@@ -101,36 +101,6 @@ height:800px;
 
 }
 
-#content-left{
-    float:left;
-	
-	width: 300px;
-	height: 500px;
-	float:left;
-	
-    padding-left: 10px;
-    overflow-y: hidden;
-    overflow-x: hidden;
-    border-radius:15px;
-    float: left;
-    margin:15px;
-    padding:5px;  
-}
-
-#content-right{
-    width:900px:
-	height:500px;
-	float:left;
-	background: rgba(0, 0, 0, 0.68);
-    padding-left: 10px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    border-radius:15px;
-    float: left;
-    margin:15px;
-    padding:5px;  
-   }
-
  #opt1{
  border: 1px solid #AAA;
   
@@ -158,38 +128,43 @@ text-decoration: none;
 margin-right: 8px;
 }
 
-.custom a{
-color: white;
+a {
+    color: black;
 }
 
-#list-container {
-	height: 450px;
-    overflow-y: auto;
+#dataset-list {
+    float:left;
+	width: 300px;
+	height: 600px;
+    overflow-y: hidden;
     overflow-x: hidden;
+	border: gray 2px solid;
+    border-radius: 10px;
+    float: left;
+    background-color: #FFF;
+    margin: 0px 4px;
+    padding: 5px 0px 5px 5px;
 }
 
 #list-container ul {
 	font-family: "American Typewriter", sans-serif;
+    font-size:1em;
     list-style-type: none;
     margin: 0px;
     padding: 0px;
-}
-
-#list-container ul {
-    list-style-type: none;
-    margin: 0px;
-    padding: 0px;
-}
-
-#list-container ul {
     list-style-type:none;
-    white-space: nowrap;
+    /* Arg.  I really want nowrap on here, but it breaks the slick scrollbar */
+    /* white-space: nowrap; */
+    padding-left: 20px;
+    text-indent: -20px;
 }
+
 #list-container ul ul {
     left:-9999px;
     list-style-type:none;
     padding-left:20px;
-    position:absolute
+    position:absolute;
+    color: gray;
 }
 #list-container li.open > ul {
     position:static;
@@ -230,12 +205,35 @@ color: white;
 	font-size:36;
 }
 
-#chart {
+#chart-container {
     width: 900px;
     height: 500px;
+	float:left;
+    overflow-y: auto;
+    overflow-x: hidden;
+    float: left;
+	border: gray 2px solid;
+    border-radius: 10px;
+    margin: 0px 4px;
 }
 
-#list {
-    width: 900px;
-    height: 500px;
+#chart {
+    width: 880px;
+    height: 480px;
+    margin: auto;
+}
+
+.box, .box .antiscroll-inner {
+    height: 550px;
+}
+
+.box-wrap {
+	height: 550px;
+    border-top: 1px gray solid;
+    padding-top: 5px;
+    margin-top: 5px;
+}
+
+#search {
+    padding: 4px;
 }

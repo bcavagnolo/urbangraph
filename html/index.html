@@ -5,6 +5,11 @@
 	 <script src="http://d3js.org/d3.v2.js"></script>
 	<script src="../js/graph.js"></script>
     <script src="../js/list.js"></script>
+
+    <script src="../js/antiscroll/jquery-mousewheel.js"></script>
+    <link href="../js/antiscroll/antiscroll.css" rel="stylesheet" />
+    <script src="../js/antiscroll/antiscroll.js"></script>
+
     <link rel="stylesheet" type="text/css" href="../static/main_page.css" />
 
 	<script type="text/javascript">
@@ -18,17 +23,24 @@
           <div id="headbanner">
 	          <div id="icon">URBAN<span id="graph">graph</span></div>
           </div>
-          <div id="content-left">
-              <div id="dataset-list">
-                  <p>Find datasets by name, run id, or scenario:</p>
+          <div id="dataset-list">
+
+              <div id="search">Find datasets by name, run id, or scenario:
                   <input class="search" />
-                  <!-- <button data-sort="name" class="sort button">Sort</button> -->
-                  <div id="list-container">
-                      <ul class="list"></ul>
+              </div>
+
+              <div class="box-wrap antiscroll-wrap">
+                  <div class="box">
+                      <div class="antiscroll-inner">
+                          <div class="box-inner" id="list-container">
+                              <ul class="list"></ul>
+                              <!-- <button data-sort="name" class="sort button">Sort</button> -->
+                          </div>
+                      </div>
                   </div>
               </div>
           </div>
-          <div id="content-right">
+          <div id="chart-container">
               <div id="chart"></div>
           </div>
       </div>

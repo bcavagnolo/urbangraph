@@ -211,3 +211,31 @@ color: white;
 #list-container li.open > span.icon {
     background-position:0 -48px;
 }
+
+@font-face {
+  font-family: BostonTraffic ;
+  src: url( boston.ttf ) format("truetype");
+}
+
+#icon {
+	font-family: BostonTraffic;
+	font-size:37;
+	color:rgb(179, 66, 66);
+	margin-left:15px;
+	margin-top:25px;
+}
+
+#graph{
+	font-family: "American Typewriter";
+	font-size:36;
+}
+
+#chart {
+    width: 900px;
+    height: 500px;
+}
+
+#list {
+    width: 900px;
+    height: 500px;
+}

@@ -43,7 +43,23 @@
               <div id="chart"></div>
           </div>
           <div id="chart-controls">
-              <button class="button" id="chart-type">Pie Chart</button>
+              <div id="chart-mode" class="controls">
+                  Chart Mode
+                  <button class="button" id="pie-chart">Pie Chart</button>
+                  <button class="button" id="line-chart">Line Chart</button>
+              </div>
+              <div id="pie-controls" class="controls">
+                  Pie Chart Controls
+                  <form>
+                      <label for="xval_select">Year:</label>
+	                  <select id="xval_select">
+	                      <option value="2010" >2010</option>
+	                      <option value="2011" >2011</option>
+	                      <option value="2012" >2012</option>
+	                  </select>
+                  </form>
+              </div>
+              </form>
           </div>
       </div>
   </body>

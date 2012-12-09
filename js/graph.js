@@ -228,12 +228,13 @@ $(document).ready(function() {
       if (event.type == EVENT.DRAW_LINE || event.type == EVENT.DRAW) {
         drawLine(currentURL);
       } else if (event.type == EVENT.DRAW_PIE) {
-        drawPie(currentURL);
+        drawPie(currentURL, event.xval);
         state = STATE.PIE;
+        updateControls();
       } else if (event.type == EVENT.TOGGLE_CHART_TYPE) {
-        $('#chart-type').text("See Line Chart")
         drawPie(currentURL);
         state = STATE.PIE;
+        updateControls();
       }
       break;
     case STATE.PIE:
@@ -241,20 +242,42 @@ $(document).ready(function() {
       if (event.type == EVENT.DRAW_LINE) {
         drawLine(currentURL);
         state = STATE.LINE;
+        updateControls();
       } else if (event.type == EVENT.DRAW_PIE || event.type == EVENT.DRAW) {
         drawPie(currentURL);
       } else if (event.type == EVENT.TOGGLE_CHART_TYPE) {
-        $('#chart-type').text("See Pie Chart")
         drawLine(currentURL);
         state = STATE.LINE;
+        updateControls();
       }
       break;
     }
   }
 
-  $('#chart-type').click(function() {
-    chartEvent({type: EVENT.TOGGLE_CHART_TYPE});
+  function updateControls() {
+    switch (state) {
+    case STATE.LINE:
+      $('#pie-controls').hide();
+      break;
+    case STATE.PIE:
+      $('#pie-controls').show();
+      break;
+    }
+  }
+
+  $(function () {
+    $('#pie-controls').hide();
+  });
+
+  $('#pie-chart').click(function() {
+    chartEvent({type: EVENT.DRAW_PIE});
     return false;
   });
+
+  $('#line-chart').click(function() {
+    chartEvent({type: EVENT.DRAW_LINE});
+    return false;
+  });
+
   return false;
 });

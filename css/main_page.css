@@ -12,7 +12,7 @@ select {
   -webkit-padding-end: 20px;
   -webkit-padding-start: 2px;
   -webkit-user-select: none;
-  background-image: url(../images/select-arrow.png), 
+  background-image: url(select-arrow.png),
     -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
   background-position: center right;
   background-repeat: no-repeat;
@@ -39,9 +39,9 @@ select {
 	display:inline-block;
 	color:#ffffff;
 	font-family:arial;
-	font-size:15px;
+	font-size:1em;
 	font-weight:bold;
-	padding:6px 24px;
+	padding:2px 2px;
 	text-decoration:none;
 	text-shadow:1px 1px 0px #689324;
 }.button:hover {
@@ -248,6 +248,25 @@ a {
     padding: 5px;
 }
 
-#chart-type {
-    width: 10em;
+.controls {
+    float: left;
+    border-right: gray 2px solid;
+    padding-right: 4px;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 100%;
 }
+
+#chart-mode {
+    width: 100px;
+}
+
+#pie-controls {
+    padding-left: 4px;
+}
+
+#chart-mode .button {
+    width: 100px;
+}
+

@@ -28,14 +28,11 @@ select {
   }
   
   .button {
-	-moz-box-shadow:inset 0px 1px 0px 0px #c1ed9c;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #c1ed9c;
-	box-shadow:inset 0px 1px 0px 0px #c1ed9c;
-	background-color:#9dce2c;
+	background-color: rgb(179, 66, 66);
 	-moz-border-radius:6px;
 	-webkit-border-radius:6px;
 	border-radius:6px;
-	border:1px solid #83c41a;
+	border:1px solid rgb(195, 82, 82);
 	display:inline-block;
 	color:#ffffff;
 	font-family:arial;
@@ -43,9 +40,8 @@ select {
 	font-weight:bold;
 	padding:2px 2px;
 	text-decoration:none;
-	text-shadow:1px 1px 0px #689324;
 }.button:hover {
-	background-color:#8cb82b;
+	background-color: rgb(195, 82, 82);
 }.button:active {
 	position:relative;
 	top:1px;

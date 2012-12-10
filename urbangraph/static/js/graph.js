@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-  var datasetList;
-
   try {
     google.load("visualization", "1", {packages:["corechart"]});
     google.setOnLoadCallback(prepareUI);
@@ -63,10 +61,12 @@ $(document).ready(function() {
     if (!title)
       title = slugToProper(d.name);
 
+    var desc = d.desc;
+    if (!desc)
+      desc = "(unavailable)"
     html = "<li><a class='dataset name' name='" + d.name + "' href='#'>" +
       title + "</a><ul>" +
-      "<li class='run_id'>Run #</li>" +
-      "<li class='scenario_name'>" +
+      "<li class='description'>Description: " + desc + "</li>" +
       "</ul></li>"
     return html;
   }
@@ -74,19 +74,18 @@ $(document).ready(function() {
   function runToHTML(d) {
     var raw_name = "Run " + d.id;
     var name = d.name;
+    var html;
+    var sname = d.scenario.name.replace('_', ' ');
     if (!name) {
-      html = "<li><a class='runset run' id='" + d.id + "' href='#'>" +
-        raw_name + "</a><ul>";
+      html = "<li><a class='runset run' id='" + d.id + "' href='#'>";
+      html += raw_name + " (" + sname + " Scenario)" + "</a><ul>";
     } else {
       html = "<li><a class='runset name' id='" + d.id + "' href='#'>" +
-        name + "</a><ul>" +
-        "<li class='run'>" + raw_name + "</li>";
+      html += name + "</a><ul><li class='run'>" + raw_name + "</li>";
+      html += "<li class='scenario'>" + "Scenario: " + sname + "</li>";
     }
 
-    var sname = d.scenario.name.replace('_', ' ');
-    html += "<li class='scenario_name'>" + sname + "</li>" +
-      "<li class='scenario_name'>" + sname + "</li>" +
-      "</ul></li>"
+    html += "</ul></li>";
     return html;
   }
 
@@ -101,9 +100,9 @@ $(document).ready(function() {
           $('#dataset-list .list').append(datasetToHTML(data[i]));
         }
         var options = {
-          valueNames: [ 'name', 'run_id', 'scenario_name'],
+          valueNames: [ 'name', 'description'],
         };
-        datasetList = new List('dataset-list', options);
+        var datasetList = new List('dataset-list', options);
 
         $(".dataset").live("click", function(event) {
           $('#chart-title').attr('name', this.name);
@@ -127,9 +126,9 @@ $(document).ready(function() {
           $('#run-list .list').append(runToHTML(data[i]));
         }
         var options = {
-          valueNames: [ 'name', 'run_id', 'scenario_name'],
+          valueNames: [ 'name', 'run', 'scenario'],
         };
-        datasetList = new List('run-list', options);
+        var datasetList = new List('run-list', options);
         $(".runset").live("click", function(event) {
           $('#chart-title').attr('run_id', this.id);
           chartEvent({type: EVENT.DRAW});

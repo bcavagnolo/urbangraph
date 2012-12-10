@@ -29,15 +29,21 @@ Ubuntu
 
    $ sudo su postgres
    $ createuser -P -d -l -R -S urbangraph
-   $ createdb -T template_postgis -O urbangraph urbangraph
+   $ createdb -O urbangraph urbangraph
    $ exit
 
    [ NOTE: the user needs to be able to create DBs to run the tests]
 
+   NOTE: once we enable postgis, you'll set createdb like this:
+   $ createdb -T template_postgis -O urbangraph urbangraph
+
 5. Sync the django app's db and launch the development server
 
-   $ export DATABASE_URL=postgis://urbangraph:<password>@localhost/urbangraph
+   $ export DATABASE_URL=postgres://urbangraph:<password>@localhost/urbangraph
    $ python manage.py syncdb
+
+    NOTE: once we enable postgis, you'll set DATABASE_URL like this:
+    $ export DATABASE_URL=postgis://urbangraph:<password>@localhost/urbangraph
 
 6a. Create suitable shape files for the geographies you need.  You can probably
     skip this step if you only need the geographies in data/shapes/counties.
@@ -98,6 +104,9 @@ data, of course.
     $ source venv/bin/activate
     $ export PYTHONPATH=$PWD
     $ export DJANGO_SETTINGS_MODULE=urbangraph.settings
+    $ export DATABASE_URL=postgres://urbangraph:<password>@localhost/urbangraph
+
+    NOTE: once we enable postgis, you'll set DATABASE_URL like this:
     $ export DATABASE_URL=postgis://urbangraph:<password>@localhost/urbangraph
 
 2. Go get run data:
@@ -365,3 +374,4 @@ TODO
 -- Implement POST/PUT to update titles and descriptions
 -- Use south to implement DB migration
 -- Add Date field to run
+-- Use postgis for shape class

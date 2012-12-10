@@ -1,4 +1,4 @@
-from django.contrib.gis.db import models
+from django.db import models
 from django.core.validators import validate_slug
 
 class Project(models.Model):
@@ -23,8 +23,9 @@ class Shape(models.Model):
     title = models.CharField(max_length=256, null=True)
 
     # geo django fields
-    poly = models.MultiPolygonField(srid=3740)
-    objects = models.GeoManager()
+    # Due to time constraints, we're not using postgis yet.
+    # poly = models.MultiPolygonField(srid=3740)
+    # objects = models.GeoManager()
 
     def __unicode__(self):
         return self.name
@@ -49,13 +50,28 @@ class Indicator(models.Model):
 
 class IndicatorData(models.Model):
     run = models.ForeignKey(Run)
-    shape = models.ForeignKey(Shape)
+    # For now we are only representing the county level.
+    #shape = models.ForeignKey(Shape)
     indicator = models.ForeignKey(Indicator)
-    xvalue = models.FloatField()
-    yvalue = models.FloatField()
+    # We really want a float array here.  And this exists in postgres.  In
+    # fact, the dbarray project adds this type to the ORM.  But there's no
+    # corresponding tastypie resource field.  So we're using varchar.  We use
+    # 20 characters for each number and its comma.  The most numbers we have is
+    # [2010-2040] = 31.  And we need the array brackets.  So the max length of
+    # the field is 20*31 + 2 = 622.  And the xvals can be shorter.  5*31 + 2 =
+    # 157.
+    xvalues = models.CharField(max_length=160)
 
     class Meta:
-        unique_together = ("run", "shape", "indicator", "xvalue")
+        unique_together = ("run", "indicator")
+
+class IndicatorYData(models.Model):
+    indicator_data = models.ForeignKey(IndicatorData)
+    name = models.CharField(max_length=128)
+    data = models.CharField(max_length=630)
+
+    class Meta:
+        unique_together = ("name", "indicator_data")
 
     def __unicode__(self):
         return str(self.xvalue) + ',' + str(self.yvalue)

@@ -27,7 +27,6 @@ id_to_county = {
     43: "Santa Clara",
 }
 
-@transaction.commit_manually
 def add_run_to_db(run_data):
     #cache_directory = j['cache_directory']
     #host = j['hudson_details']['node']
@@ -71,6 +70,10 @@ def add_run_to_db(run_data):
             iname = iname[1:]
         iname = '_'.join(iname)
 
+        # For now, just do county
+        if lname != 'county':
+            continue
+
         if lname == "area" or lname == "pda":
             # area and pda are different sorts of geography that we're ont
             # working with at this time.  They also do not match our data
@@ -86,8 +89,11 @@ def add_run_to_db(run_data):
         indicator = Indicator.objects.get_or_create(name=iname)[0]
 
         # Check if we already have indicators for this run.
-        n = IndicatorData.objects.filter(run_id=run.id, indicator=indicator,
-                                         shape__level__name__exact=lname).count()
+        n = IndicatorData.objects.filter(run_id=run.id, indicator=indicator).count()
+
+        # Once we re-enable shapes, we need the above filter to contain:
+        #shape__level__name__exact=lname
+
         if n > 0:
             print "Already have", lname, iname, "for run", str(run_id)
             continue
@@ -97,6 +103,11 @@ def add_run_to_db(run_data):
         d = urllib2.urlopen(url + '/' + l)
         reader = csv.reader(d, delimiter='\t')
         header = True
+        idata = IndicatorData(run=run, indicator=indicator,
+                              xvalues='[' +
+                              ",".join(map(lambda x: str(x),
+                                           range(year_begin, year_end+1))) + ']')
+        idata.save()
         for row in reader:
             # all of the data in our case is id,t,t+1,t+2... with a header that
             # we ignore
@@ -112,17 +123,16 @@ def add_run_to_db(run_data):
                 except KeyError:
                     # skip rows with unknown counties.
                     continue
-            shape = Shape.objects.filter(level_id=level.id, name__iexact=sname)
-            if not shape:
-                print "WARNING: Failed to find shape",sname,"at level",lname,"for",iname
-                break
-            shape = shape[0]
-            map(lambda i: IndicatorData(run=run, shape=shape,
-                                        indicator=indicator,
-                                        xvalue=float(i[0]),
-                                        yvalue=float(i[1])).save(),
-                zip(range(year_begin, year_end+1), row[1:]))
-        transaction.commit()
+
+            # Disable the shape business for now because we're not using it.
+            #shape = Shape.objects.filter(level_id=level.id, name__iexact=sname)
+            #if not shape:
+            #    print "WARNING: Failed to find shape",sname,"at level",lname,"for",iname
+            #    break
+            #shape = shape[0]
+            iydata = IndicatorYData(name=sname, indicator_data=idata,
+                                   data='[' + ",".join(row[1:]) + ']')
+            iydata.save()
 
 def add_run_to_json(run_data):
     index = open('testdata/index.json', 'w');
@@ -244,5 +254,5 @@ if __name__ == '__main__':
         sys.exit(1)
 
     run_data = json.loads(f.read())
-    #add_run_to_db(run_data)
-    add_run_to_json(run_data)
+    add_run_to_db(run_data)
+    #add_run_to_json(run_data)

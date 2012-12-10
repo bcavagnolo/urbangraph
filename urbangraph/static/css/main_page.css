@@ -142,7 +142,7 @@ a {
     padding: 5px 0px 5px 5px;
 }
 
-#list-container ul {
+.list-container ul {
 	font-family: "American Typewriter", sans-serif;
     font-size:1em;
     list-style-type: none;
@@ -155,17 +155,17 @@ a {
     text-indent: -20px;
 }
 
-#list-container ul ul {
+.list-container ul ul {
     left:-9999px;
     list-style-type:none;
     padding-left:20px;
     position:absolute;
     color: gray;
 }
-#list-container li.open > ul {
+.list-container li.open > ul {
     position:static;
 }
-#list-container li > span.icon {
+.list-container li > span.icon {
     background:url(list.png) no-repeat;
     display:inline-block;
     height:16px;
@@ -173,13 +173,13 @@ a {
     vertical-align:text-top;
     width:16px;
 }
-#list-container li:last-child > span.icon {
+.list-container li:last-child > span.icon {
     background-position:0 -16px;
 }
-#list-container li.parent > span.icon {
+.list-container li.parent > span.icon {
     background-position:0 -32px;
 }
-#list-container li.open > span.icon {
+.list-container li.open > span.icon {
     background-position:0 -48px;
 }
 
@@ -220,17 +220,19 @@ a {
 }
 
 .box, .box .antiscroll-inner {
-    height: 550px;
+    height: 225px;
 }
 
 .box-wrap {
-	height: 550px;
+	height: 225px;
     border-top: 1px gray solid;
+    border-bottom: 3px gray solid;
     padding-top: 5px;
     margin-top: 5px;
+    width: 100%;
 }
 
-#search {
+.left-header {
     padding: 4px;
 }
 
@@ -280,4 +282,8 @@ a {
 #chart-subtitle {
 	font-size: 16;
     color: gray;
+}
+
+#rsearch {
+    padding-top: 8px;
 }

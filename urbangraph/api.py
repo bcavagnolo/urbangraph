@@ -53,7 +53,7 @@ class RunResource(ModelResource):
     class Meta:
         queryset = Run.objects.all()
         resource_name = 'run'
-
+        ordering = ['id',]
     def override_urls(self):
         return [
             url(r'^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/indicator%s$' % (

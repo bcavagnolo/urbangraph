@@ -71,7 +71,27 @@ $(document).ready(function() {
     return html;
   }
 
+  function runToHTML(d) {
+    var raw_name = "Run " + d.id;
+    var name = d.name;
+    if (!name) {
+      html = "<li><a class='dataset run' href='#'>" +
+        raw_name + "</a><ul>";
+    } else {
+      html = "<li><a class='dataset name' href='#'>" +
+        name + "</a><ul>" +
+        "<li class='run'>" + raw_name + "</li>";
+    }
+
+    var sname = d.scenario.name.replace('_', ' ');
+    html += "<li class='scenario_name'>" + sname + "</li>" +
+      "<li class='scenario_name'>" + sname + "</li>" +
+      "</ul></li>"
+    return html;
+  }
+
   function prepareUI() {
+
     $.ajax({
       url: '/api/v1/indicator/?limit=100',
       dataType: 'json',
@@ -89,24 +109,34 @@ $(document).ready(function() {
           chartEvent({type: EVENT.DRAW, url: this.href});
           return false;
         });
-
-        $('.list-container > ul').find('li').each(function() {
-          $(this).prepend('<span class="icon"></span>');
-        });
-        $('.list-container > ul').find('li:has(> ul)').each(function() {
-          $(this).addClass('parent');
-        });
-        $('.list-container li.parent > span.icon').click(function() {
-          $(this).parent().toggleClass('open');
-        });
-        setupAntiscroll();
         chartEvent({type: EVENT.INDICATORS_LOADED});
       },
       error: function(data) {
-        console.log("WARNING: Failed to fetch index.");
+        console.log("WARNING: Failed to fetch indicator data.");
         console.log(data);
       }
     });
+
+    $.ajax({
+      url: '/api/v1/run?order_by=-id',
+      dataType: 'json',
+      success: function(data) {
+        data = data.objects;
+        for (var i=0; i<data.length; i++) {
+          $('#run-list .list').append(runToHTML(data[i]));
+        }
+        var options = {
+          valueNames: [ 'name', 'run_id', 'scenario_name'],
+        };
+        datasetList = new List('run-list', options);
+        chartEvent({type: EVENT.RUNS_LOADED});
+      },
+      error: function(data) {
+        console.log("WARNING: Failed to fetch run data.");
+        console.log(data);
+      }
+    });
+
   }
 
   function populateXValFields(data) {
@@ -240,15 +270,27 @@ $(document).ready(function() {
   var loadEvents = 0;
 
   function chartEvent(event) {
-
     switch (state) {
-    case STATE.LINE:
-      if (event == EVENT.INDICATORS_LOADED)
+    case STATE.INIT:
+      if (event.type == EVENT.INDICATORS_LOADED)
         loadEvents |= EVENT.INDICATORS_LOADED;
-      else if (event == EVENT.RUNS_LOADED)
+      else if (event.type == EVENT.RUNS_LOADED)
         loadEvents |= EVENT.RUNS_LOADED;
-      if (loadEvents == FULLY_LOADED)
-        console.log("Locked and loaded");
+
+      if (loadEvents == FULLY_LOADED) {
+        $('.list-container > ul').find('li').each(function() {
+          $(this).prepend('<span class="icon"></span>');
+        });
+        $('.list-container > ul').find('li:has(> ul)').each(function() {
+          $(this).addClass('parent');
+        });
+        $('.list-container li.parent > span.icon').click(function() {
+          $(this).parent().toggleClass('open');
+        });
+        setupAntiscroll();
+        state = STATE.LINE;
+        drawLine();
+      }
       break;
     case STATE.LINE:
       currentURL = event.url || currentURL;

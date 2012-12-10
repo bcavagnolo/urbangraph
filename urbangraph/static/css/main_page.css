@@ -287,3 +287,23 @@ a {
 #rsearch {
     padding-top: 8px;
 }
+
+#about {
+	height: 25px;
+    border-bottom: 3px gray solid;
+    padding-top: 2px;
+    padding-left: 4px;
+    margin-top: 2px;
+    width: 100%;
+}
+
+#dialog-modal {
+}
+
+.ui-dialog-titlebar {
+    background-image: none;
+    background-color: white;
+    border: none;
+    border-bottom: 3px gray solid;
+    border-radius: none;
+}

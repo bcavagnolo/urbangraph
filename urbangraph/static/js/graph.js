@@ -1,5 +1,16 @@
 $(document).ready(function() {
 
+  $("#dialog-modal").dialog({
+    height: 550,
+    width: 400,
+    modal: true,
+    autoOpen: false
+  });
+
+  $("#about-urbangraph").click(function () {
+    $("#dialog-modal").dialog('open');
+  });
+
   try {
     google.load("visualization", "1", {packages:["corechart"]});
     google.setOnLoadCallback(prepareUI);

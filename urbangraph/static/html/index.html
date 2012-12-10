@@ -1,7 +1,9 @@
 <html>
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <link rel="stylesheet" href="../css/jquery-ui.css" />
 	 <script src="http://d3js.org/d3.v2.js"></script>
 	<script src="../js/graph.js"></script>
     <script src="../js/list.js"></script>
@@ -23,7 +25,29 @@
           <div id="headbanner">
 	          <div id="icon">URBAN<span id="graph">graph</span></div>
           </div>
+
+          <div id="dialog-modal" title="About URBANgraph">
+              <p>URBANgraph is an online tool for visualizing the results of
+              urban simulations
+              from <a href="http://www.urbansim.org/">URBANsim</a>.  The next
+              sensible question you might have is, "What is URBANsim?"  You
+              could just go read about it at that link I just typed.  But
+              here's the basics: urban planners gather a bunch of data (like
+              census data and buisiness location data) for a region of
+              interest.  Then they use URBANsim to estimate statistical models
+              like <a href="http://en.wikipedia.org/wiki/Ordinary_least_squares">OLS
+              models</a> and <a href="http://en.wikipedia.org/wiki/Logit">logit
+              models</a>. These models can be used to forcast things, like
+              where people will choose to live, where businesses will choose to
+              locate, and what sorts of things developers will choose to
+              build. URBANgraph is a tool to visualize the output data as
+              graphs.</p>
+          </div>
+
           <div id="data-control">
+              <div id="about">
+                  <a id="about-urbangraph" href="#">About URBANgraph</a>
+              </div>
 
               <div id="dataset-list">
               <div id="search" class="left-header">

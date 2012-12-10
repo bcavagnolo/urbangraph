@@ -59,26 +59,24 @@ $(document).ready(function() {
   }
 
   function datasetToHTML(d) {
-    var scenario_title = d.scenario_title;
-    if (!scenario_title)
-      scenario_title = d.scenario_name.replace('_', ' ');
     var title = d.title;
     if (!title)
       title = slugToProper(d.name);
 
-    html = "<li><a class='dataset name' href='" + d.url + "'>" +
+    html = "<li><a class='dataset name' href='#'>" +
       title + "</a><ul>" +
-      "<li class='run_id'>Run #" + d.run_id + "</li>" +
-      "<li class='scenario_name'>" + scenario_title + " Scenario</li>" +
+      "<li class='run_id'>Run #</li>" +
+      "<li class='scenario_name'>" +
       "</ul></li>"
     return html;
   }
 
   function prepareUI() {
     $.ajax({
-      url: '../testdata/index.json',
+      url: '/api/v1/indicator/?limit=100',
       dataType: 'json',
       success: function(data) {
+        data = data.objects;
         for (var i=0; i<data.length; i++) {
           $('#dataset-list .list').append(datasetToHTML(data[i]));
         }
@@ -92,17 +90,17 @@ $(document).ready(function() {
           return false;
         });
 
-        $('#list-container > ul').find('li').each(function() {
+        $('.list-container > ul').find('li').each(function() {
           $(this).prepend('<span class="icon"></span>');
         });
-        $('#list-container > ul').find('li:has(> ul)').each(function() {
+        $('.list-container > ul').find('li:has(> ul)').each(function() {
           $(this).addClass('parent');
         });
-        $('#list-container li.parent > span.icon').click(function() {
+        $('.list-container li.parent > span.icon').click(function() {
           $(this).parent().toggleClass('open');
         });
         setupAntiscroll();
-        chartEvent({type: EVENT.DRAW_LINE, url: data[0].url});
+        chartEvent({type: EVENT.INDICATORS_LOADED});
       },
       error: function(data) {
         console.log("WARNING: Failed to fetch index.");
@@ -223,22 +221,35 @@ $(document).ready(function() {
   // Things can get complicated.  Use a proper state machine.  No other
   // functions in this file should be stateful.
   var STATE = {
-    LINE : 0,
-    PIE: 1,
+    INIT: 0,
+    LINE : 1,
+    PIE: 2,
   };
-  var state = STATE.LINE;
+  var state = STATE.INIT;
 
   var EVENT = {
     DRAW : 0,
     DRAW_PIE : 1,
     DRAW_LINE: 2,
-    TOGGLE_CHART_TYPE: 3,
+    TOGGLE_CHART_TYPE: 4,
+    INDICATORS_LOADED: 8,
+    RUNS_LOADED: 16,
   };
   var currentURL;
+  var FULLY_LOADED = EVENT.INDICATORS_LOADED|EVENT.RUNS_LOADED;
+  var loadEvents = 0;
 
   function chartEvent(event) {
 
     switch (state) {
+    case STATE.LINE:
+      if (event == EVENT.INDICATORS_LOADED)
+        loadEvents |= EVENT.INDICATORS_LOADED;
+      else if (event == EVENT.RUNS_LOADED)
+        loadEvents |= EVENT.RUNS_LOADED;
+      if (loadEvents == FULLY_LOADED)
+        console.log("Locked and loaded");
+      break;
     case STATE.LINE:
       currentURL = event.url || currentURL;
       if (event.type == EVENT.DRAW_LINE || event.type == EVENT.DRAW) {

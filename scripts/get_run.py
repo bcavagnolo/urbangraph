@@ -130,9 +130,9 @@ def add_run_to_db(run_data):
             #    print "WARNING: Failed to find shape",sname,"at level",lname,"for",iname
             #    break
             #shape = shape[0]
-            iydata = IndicatorYData(name=sname, indicator_data=idata,
-                                   data='[' + ",".join(row[1:]) + ']')
+            iydata = IndicatorYData(name=sname, data='[' + ",".join(row[1:]) + ']')
             iydata.save()
+            idata.yvalues.add(iydata.id)
 
 def add_run_to_json(run_data):
     index = open('testdata/index.json', 'w');

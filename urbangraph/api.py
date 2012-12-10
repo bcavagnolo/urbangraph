@@ -3,6 +3,7 @@ from tastypie import fields
 from urbangraph.models import *
 from django.conf.urls import url
 from tastypie.utils import trailing_slash
+from tastypie.constants import ALL_WITH_RELATIONS, ALL
 
 class ScenarioResource(ModelResource):
     project = fields.ToOneField('urbangraph.api.ProjectResource', 'project')
@@ -14,10 +15,40 @@ class IndicatorResource(ModelResource):
     class Meta:
         queryset = Indicator.objects.all()
         resource_name = 'indicator'
+        filtering = {
+            "name": ALL,
+            }
+
+class IndicatorYDataResource(ModelResource):
+    class Meta:
+        queryset = IndicatorYData.objects.all()
+        resource_name = 'indicatorydata'
+
+    def dehydrate(self, bundle):
+        # We store the data a VARCHAR, but we want an array.  Hack.
+        bundle.data['data'] = eval(bundle.data['data'])
+        return bundle
+
+class IndicatorDataResource(ModelResource):
+    indicator = fields.ToOneField(IndicatorResource, 'indicator', full=True)
+    yvalues = fields.ToManyField(IndicatorYDataResource, 'yvalues', full=True)
+    run = fields.ToOneField('urbangraph.api.RunResource', 'run')
+    class Meta:
+        queryset = IndicatorData.objects.all()
+        resource_name = 'indicatordata'
+        filtering = {
+            "run": ('exact',),
+            "indicator": ALL_WITH_RELATIONS,
+        }
+
+    def dehydrate(self, bundle):
+        # We store the xvalues a VARCHAR, but we want an array.  Hack.
+        bundle.data['xvalues'] = eval(bundle.data['xvalues'])
+        return bundle
 
 class RunResource(ModelResource):
     project = fields.ToOneField('urbangraph.api.ProjectResource', 'project')
-    scenario = fields.ToOneField(ScenarioResource, 'scenario')
+    scenario = fields.ToOneField(ScenarioResource, 'scenario', full=True)
 
     class Meta:
         queryset = Run.objects.all()
@@ -40,8 +71,8 @@ class RunResource(ModelResource):
 
     def dispatch_indicatordata(self, request, **kwargs):
         #TODO: this should return the indicator data
-        print kwargs
-        return IndicatorDataResource().dispatch('list', request, **kwargs)
+        del kwargs['pk']
+        return IndicatorDataResource().dispatch('detail', request, **kwargs)
 
 class ProjectResource(ModelResource):
 

@@ -8,6 +8,8 @@ v1_api.register(ScenarioResource())
 v1_api.register(ProjectResource())
 v1_api.register(RunResource())
 v1_api.register(IndicatorResource())
+v1_api.register(IndicatorDataResource())
+v1_api.register(IndicatorYDataResource())
 
 urlpatterns = patterns('',
     # Examples:

@@ -48,6 +48,13 @@ class Indicator(models.Model):
     def __unicode__(self):
         return self.name
 
+class IndicatorYData(models.Model):
+    name = models.CharField(max_length=128)
+    data = models.CharField(max_length=2048)
+
+    def __unicode__(self):
+        return str(self.xvalue) + ',' + str(self.yvalue)
+
 class IndicatorData(models.Model):
     run = models.ForeignKey(Run)
     # For now we are only representing the county level.
@@ -61,19 +68,8 @@ class IndicatorData(models.Model):
     # the field is 20*31 + 2 = 622.  And the xvals can be shorter.  5*31 + 2 =
     # 157.
     xvalues = models.CharField(max_length=160)
+    yvalues = models.ManyToManyField(IndicatorYData)
 
     class Meta:
         unique_together = ("run", "indicator")
-
-class IndicatorYData(models.Model):
-    indicator_data = models.ForeignKey(IndicatorData)
-    name = models.CharField(max_length=128)
-    data = models.CharField(max_length=630)
-
-    class Meta:
-        unique_together = ("name", "indicator_data")
-
-    def __unicode__(self):
-        return str(self.xvalue) + ',' + str(self.yvalue)
-    
 

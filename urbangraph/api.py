@@ -32,7 +32,7 @@ class IndicatorYDataResource(ModelResource):
 class IndicatorDataResource(ModelResource):
     indicator = fields.ToOneField(IndicatorResource, 'indicator', full=True)
     yvalues = fields.ToManyField(IndicatorYDataResource, 'yvalues', full=True)
-    run = fields.ToOneField('urbangraph.api.RunResource', 'run')
+    run = fields.ToOneField('urbangraph.api.RunResource', 'run', full=True)
     class Meta:
         queryset = IndicatorData.objects.all()
         resource_name = 'indicatordata'

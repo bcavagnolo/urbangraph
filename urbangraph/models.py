@@ -44,7 +44,7 @@ class Run(models.Model):
 class Indicator(models.Model):
     name = models.CharField(max_length=200)
     desc = models.CharField(max_length=200)
-
+    xlabel = models.CharField(max_length=200)
     def __unicode__(self):
         return self.name
 

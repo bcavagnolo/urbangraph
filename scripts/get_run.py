@@ -86,7 +86,7 @@ def add_run_to_db(run_data):
             lname = "region"
         level = Level.objects.get_or_create(name=lname)[0]
 
-        indicator = Indicator.objects.get_or_create(name=iname)[0]
+        indicator = Indicator.objects.get_or_create(name=iname, xlabel='Year')[0]
 
         # Check if we already have indicators for this run.
         n = IndicatorData.objects.filter(run_id=run.id, indicator=indicator).count()

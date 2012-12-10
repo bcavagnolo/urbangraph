@@ -63,7 +63,7 @@ $(document).ready(function() {
     if (!title)
       title = slugToProper(d.name);
 
-    html = "<li><a class='dataset name' href='#'>" +
+    html = "<li><a class='dataset name' name='" + d.name + "' href='#'>" +
       title + "</a><ul>" +
       "<li class='run_id'>Run #</li>" +
       "<li class='scenario_name'>" +
@@ -75,10 +75,10 @@ $(document).ready(function() {
     var raw_name = "Run " + d.id;
     var name = d.name;
     if (!name) {
-      html = "<li><a class='dataset run' href='#'>" +
+      html = "<li><a class='runset run' id='" + d.id + "' href='#'>" +
         raw_name + "</a><ul>";
     } else {
-      html = "<li><a class='dataset name' href='#'>" +
+      html = "<li><a class='runset name' id='" + d.id + "' href='#'>" +
         name + "</a><ul>" +
         "<li class='run'>" + raw_name + "</li>";
     }
@@ -106,7 +106,8 @@ $(document).ready(function() {
         datasetList = new List('dataset-list', options);
 
         $(".dataset").live("click", function(event) {
-          chartEvent({type: EVENT.DRAW, url: this.href});
+          $('#chart-title').attr('name', this.name);
+          chartEvent({type: EVENT.DRAW});
           return false;
         });
         chartEvent({type: EVENT.INDICATORS_LOADED});
@@ -129,6 +130,11 @@ $(document).ready(function() {
           valueNames: [ 'name', 'run_id', 'scenario_name'],
         };
         datasetList = new List('run-list', options);
+        $(".runset").live("click", function(event) {
+          $('#chart-title').attr('run_id', this.id);
+          chartEvent({type: EVENT.DRAW});
+          return false;
+        });
         chartEvent({type: EVENT.RUNS_LOADED});
       },
       error: function(data) {
@@ -148,11 +154,22 @@ $(document).ready(function() {
     }
   }
 
-  function drawLine(url) {
+  function setDefaultData() {
+    name = $('#dataset-list .list li a').attr('name');
+    id = $('#run-list .list li a').attr('id');
+    $('#chart-title').attr('name', name);
+    $('#chart-title').attr('run_id', id)
+  }
+
+  function drawLine() {
+    name = $('#chart-title').attr('name');
+    id = $('#chart-title').attr('run_id');
+
     $.ajax({
-      url: url,
+      url: '/api/v1/indicatordata/?indicator__name=' + name + '&run=' + id,
       dataType: 'json',
       success: function(data) {
+        data = data.objects[0];
         var column = [data.xlabel];
         var masterarray = [];
         for (var i=0; i<data.yvalues.length; i++) {
@@ -170,17 +187,17 @@ $(document).ready(function() {
 
         var title = data.title;
         if (!title)
-          title = slugToProper(data.name);
+          title = slugToProper(data.indicator.name);
         if (data.level)
           title += ' By ' + slugToProper(data.level);
 
-        var subtitle = data.scenario_name.replace('_', ' ') +
-          ' Scenario, Run ' + data.run_id;
+        var subtitle = data.run.scenario.name.replace('_', ' ') +
+          ' Scenario, Run ' + data.run.id;
         $('#chart-title').html(title);
         $('#chart-subtitle').html(subtitle);
         var options = {
           vAxis: {
-            title: slugToProper(data.ylabel),
+            title: slugToProper(data.indicator.name),
           },
           hAxis: {
             title: data.xlabel,
@@ -196,12 +213,15 @@ $(document).ready(function() {
     });
   }
 
-  function drawPie(url, xval) {
+  function drawPie(xval) {
+    name = $('#chart-title').attr('name');
+    id = $('#chart-title').attr('run_id');
+
     $.ajax({
-      url: url,
+      url: '/api/v1/indicatordata/?indicator__name=' + name + '&run=' + id,
       dataType: 'json',
       success: function(data) {
-
+        data = data.objects[0];
         var index = -1;
         if (!xval) {
           xval = data.xvalues[0];
@@ -224,16 +244,16 @@ $(document).ready(function() {
 
         var title = data.title;
         if (!title)
-          title = slugToProper(data.name);
-        if (data.level)
-          title += ' By ' + slugToProper(data.level) + ' (' + xval + ')';
+          title = slugToProper(data.indicator.name);
+        title += ' By County (' + xval + ')';
 
-        var subtitle = data.scenario_name.replace('_', ' ') +
-          ' Scenario, Run ' + data.run_id;
+        var subtitle = data.run.scenario.name.replace('_', ' ') +
+          ' Scenario, Run ' + data.run.id;
         $('#chart-title').html(title);
         $('#chart-subtitle').html(subtitle);
 
-        var masterarray = [[slugToProper(data.level), title]];
+        // TODO: Eventually we will support other levels besides county.
+        var masterarray = [["County", title]];
         for (var i=0; i<data.yvalues.length; i++) {
           masterarray.push([data.yvalues[i].name, data.yvalues[i].data[index]]);
         }
@@ -261,11 +281,9 @@ $(document).ready(function() {
     DRAW : 0,
     DRAW_PIE : 1,
     DRAW_LINE: 2,
-    TOGGLE_CHART_TYPE: 4,
-    INDICATORS_LOADED: 8,
-    RUNS_LOADED: 16,
+    INDICATORS_LOADED: 4,
+    RUNS_LOADED: 8,
   };
-  var currentURL;
   var FULLY_LOADED = EVENT.INDICATORS_LOADED|EVENT.RUNS_LOADED;
   var loadEvents = 0;
 
@@ -289,35 +307,26 @@ $(document).ready(function() {
         });
         setupAntiscroll();
         state = STATE.LINE;
+        setDefaultData();
         drawLine();
       }
       break;
     case STATE.LINE:
-      currentURL = event.url || currentURL;
       if (event.type == EVENT.DRAW_LINE || event.type == EVENT.DRAW) {
-        drawLine(currentURL);
+        drawLine();
       } else if (event.type == EVENT.DRAW_PIE) {
-        drawPie(currentURL, event.xval, $('#xval_select').val());
-        state = STATE.PIE;
-        updateControls();
-      } else if (event.type == EVENT.TOGGLE_CHART_TYPE) {
-        drawPie(currentURL, $('#xval_select').val());
+        drawPie(event.xval, $('#xval_select').val());
         state = STATE.PIE;
         updateControls();
       }
       break;
     case STATE.PIE:
-      currentURL = event.url || currentURL;
       if (event.type == EVENT.DRAW_LINE) {
-        drawLine(currentURL);
+        drawLine();
         state = STATE.LINE;
         updateControls();
       } else if (event.type == EVENT.DRAW_PIE || event.type == EVENT.DRAW) {
-        drawPie(currentURL, $('#xval_select').val());
-      } else if (event.type == EVENT.TOGGLE_CHART_TYPE) {
-        drawLine(currentURL);
-        state = STATE.LINE;
-        updateControls();
+        drawPie($('#xval_select').val());
       }
       break;
     }

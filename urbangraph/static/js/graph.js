@@ -1,8 +1,22 @@
 $(document).ready(function() {
 
+  $(document).tooltip({
+    position: {
+      my: "center bottom-5",
+      at: "center top",
+      using: function(position, feedback) {
+        $(this).css(position);
+        $("<div>").addClass("arrow")
+          .addClass(feedback.vertical)
+          .addClass(feedback.horizontal)
+          .appendTo(this);
+      }
+    }
+  });
+
   $("#dialog-modal").dialog({
     height: 550,
-    width: 400,
+    width: 450,
     modal: true,
     autoOpen: false
   });

@@ -312,6 +312,7 @@ a {
 .ui-tooltip {
     background: white;
     border: 2px solid gray;
+	color:rgb(179, 66, 66);
 }
 .ui-tooltip {
     padding: 5px 5px;

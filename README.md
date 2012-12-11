@@ -6,6 +6,25 @@ It has a server-side component that collects urbansim indicators into a
 database and serves them up with a RESTful API.  It has a reference web client
 that can be used for inspecting the indicator results.
 
+To test drive it, head to:
+
+http://urbangraph.herokuapp.com/static/html/index.html
+
+Team
+====
+
+David Greis: logo, layout, line graph
+
+Rohan Salantry: initial back-end data model, pie graph
+
+Brian Cavagnolo: data import, API, UI enhancements
+
+Technologies
+============
+
+client: jquery, list.js, google visualization API, css
+server: django, tastypie, custom python data import code, postgresql
+
 Setting Up Your Development Machine
 ===================================
 

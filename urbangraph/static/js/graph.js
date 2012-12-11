@@ -172,7 +172,9 @@ $(document).ready(function() {
   }
 
   function populateXValFields(data) {
-    $('label[for=xval_select]').html(data.xlabel + ':');
+    // xlabel is not implemented yet on the server side
+    var xlabel = data.xlabel || "Year";
+    $('label[for=xval_select]').html(xlabel + ':');
     s = $('#xval_select');
     for (i in data.xvalues) {
       s.append('<option value="' + data.xvalues[i] + '" >' +
@@ -196,7 +198,8 @@ $(document).ready(function() {
       dataType: 'json',
       success: function(data) {
         data = data.objects[0];
-        var column = [data.xlabel];
+        var xlabel = data.xlabel || "Year";
+        var column = [xlabel];
         var masterarray = [];
         for (var i=0; i<data.yvalues.length; i++) {
           column.push(data.yvalues[i].name);
@@ -226,7 +229,7 @@ $(document).ready(function() {
             title: slugToProper(data.indicator.name),
           },
           hAxis: {
-            title: data.xlabel,
+            title: xlabel,
           },
         };
         var chart = new google.visualization.LineChart(document.getElementById('chart'));

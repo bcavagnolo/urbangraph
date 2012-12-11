@@ -109,12 +109,16 @@ data, of course.
     NOTE: once we enable postgis, you'll set DATABASE_URL like this:
     $ export DATABASE_URL=postgis://urbangraph:<password>@localhost/urbangraph
 
-2. Go get run data:
+2. Go get run data.  This script populates the local database with static run
+   data available on the Internet.
 
     $ python scripts/get_run.py 452
 
 REST API
 ========
+
+NOTE: The API has not been fully realized as specified here.  Use with caution
+and expect to read some code!
 
 The following are descriptions of the resources served up by the REST API.  All
 API calls are support only json input and output.  Authentication is not
@@ -368,10 +372,16 @@ sample output for the population indicator:
         ]
     }
 
-TODO
-====
+TODO/KNOWN ISSUES
+=================
 
 -- Implement POST/PUT to update titles and descriptions
 -- Use south to implement DB migration
 -- Add Date field to run
 -- Use postgis for shape class
+-- Client does not recover properly when it fails to fetch data for a run due
+   to incorrect run_id and indicator name stored in the DOM.
+-- Server needs to serve up a suitable xlabel
+-- We need some mechanism
+-- Run sublists are not populated with anything, so clicking on them doesn't do
+   anything

@@ -4,6 +4,8 @@ $(document).ready(function() {
     position: {
       my: "center bottom-5",
       at: "center top",
+      my: "left center",
+      at: "right center",
       using: function(position, feedback) {
         $(this).css(position);
         $("<div>").addClass("arrow")

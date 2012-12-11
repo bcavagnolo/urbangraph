@@ -385,3 +385,4 @@ TODO/KNOWN ISSUES
 -- We need some mechanism
 -- Run sublists are not populated with anything, so clicking on them doesn't do
    anything
+-- Indicators need units!

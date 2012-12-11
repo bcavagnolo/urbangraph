@@ -23,6 +23,13 @@ $(document).ready(function() {
     autoOpen: false
   });
 
+  $("#dialog-error").dialog({
+    height: 200,
+    width: 450,
+    modal: true,
+    autoOpen: false
+  });
+
   $("#about-urbangraph").click(function () {
     $("#dialog-modal").dialog('open');
   });
@@ -197,6 +204,12 @@ $(document).ready(function() {
       url: '/api/v1/indicatordata/?indicator__name=' + name + '&run=' + id,
       dataType: 'json',
       success: function(data) {
+        if (data.meta.total_count == 0) {
+          $("#dialog-error").html("The " + slugToProper(name) +
+                                  " indicator is not available for run " + id);
+          $("#dialog-error").dialog('open');
+          return;
+        }
         data = data.objects[0];
         var xlabel = data.xlabel || "Year";
         var column = [xlabel];

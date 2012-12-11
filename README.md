@@ -33,33 +33,33 @@ Ubuntu
 
 1. Install postgres, postgis, python, and virtualenv:
 
-   $ sudo apt-get install postgresql python python-virtualenv postgresql-postgis
+    $ sudo apt-get install postgresql python python-virtualenv postgresql-postgis
 
 2. Check out the urbangraph code and cd into the directory
 
 3. Set up your python virtualenv:
 
-   $ virtualenv venv --distribute
-   $ source venv/bin/activate
-   $ pip install
-   $ pip install -r requirements.txt
+    $ virtualenv venv --distribute
+    $ source venv/bin/activate
+    $ pip install
+    $ pip install -r requirements.txt
 
 4. Create the urbangraph database:
 
-   $ sudo su postgres
-   $ createuser -P -d -l -R -S urbangraph
-   $ createdb -O urbangraph urbangraph
-   $ exit
+    $ sudo su postgres
+    $ createuser -P -d -l -R -S urbangraph
+    $ createdb -O urbangraph urbangraph
+    $ exit
 
    [ NOTE: the user needs to be able to create DBs to run the tests]
 
    NOTE: once we enable postgis, you'll set createdb like this:
-   $ createdb -T template_postgis -O urbangraph urbangraph
+    $ createdb -T template_postgis -O urbangraph urbangraph
 
 5. Sync the django app's db and launch the development server
 
-   $ export DATABASE_URL=postgres://urbangraph:<password>@localhost/urbangraph
-   $ python manage.py syncdb
+    $ export DATABASE_URL=postgres://urbangraph:<password>@localhost/urbangraph
+    $ python manage.py syncdb
 
     NOTE: once we enable postgis, you'll set DATABASE_URL like this:
     $ export DATABASE_URL=postgis://urbangraph:<password>@localhost/urbangraph
@@ -75,13 +75,13 @@ Ubuntu
 
 6b. Populate shape table with initial geography
 
-   $ shp2pgsql -g poly -s 3740 -a data/shapes/counties urbangraph_shape urbangraph | psql -U urbangraph -h localhost urbangraph
-   $ shp2pgsql -g poly -s 3740 -a data/shapes/zones urbangraph_shape urbangraph | psql -U urbangraph -h localhost urbangraph
-   $ shp2pgsql -g poly -s 3740 -a data/shapes/superdistricts urbangraph_shape urbangraph | psql -U urbangraph -h localhost urbangraph
+    $ shp2pgsql -g poly -s 3740 -a data/shapes/counties urbangraph_shape urbangraph | psql -U urbangraph -h localhost urbangraph
+    $ shp2pgsql -g poly -s 3740 -a data/shapes/zones urbangraph_shape urbangraph | psql -U urbangraph -h localhost urbangraph
+    $ shp2pgsql -g poly -s 3740 -a data/shapes/superdistricts urbangraph_shape urbangraph | psql -U urbangraph -h localhost urbangraph
 
 7. Launch the development server:
 
-   $ python manage.py runserver
+    $ python manage.py runserver
 
 8. Point your browser at the development server and expect the front page to
    appear
@@ -90,7 +90,7 @@ Ubuntu
 
 9. Run the tests:
 
-   $ python manage.py test
+    $ python manage.py test
 
 Deploying to Heroku
 ===================
@@ -98,16 +98,16 @@ Deploying to Heroku
 1. Install heroku toolbelt.  This step varies depending on your platform.
    Here's how I do it on Ubuntu:
 
-   $ wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+    $ wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
 
 2. Add heroku remote to your git tree:
 
-   $ git remote add heroku git@heroku.com:urbangraph.git
+    $ git remote add heroku git@heroku.com:urbangraph.git
 
 3. Push to heroku and sync the db:
 
-   $ git push heroku master
-   $ heroku run python manage.py syncdb
+    $ git push heroku master
+    $ heroku run python manage.py syncdb
 
 4. Expect the updated app to be available here:
 

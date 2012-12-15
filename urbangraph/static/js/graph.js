@@ -114,7 +114,7 @@ $(document).ready(function() {
       html = "<li><a class='runset run' id='" + d.id + "' href='#'>";
       html += raw_name + " (" + sname + " Scenario)" + "</a><ul>";
     } else {
-      html = "<li><a class='runset name' id='" + d.id + "' href='#'>" +
+      html = "<li><a class='runset name' id='" + d.id + "' href='#'>";
       html += name + "</a><ul><li class='run'>" + raw_name + "</li>";
       html += "<li class='scenario'>" + "Scenario: " + sname + "</li>";
     }
